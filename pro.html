@@ -87,10 +87,13 @@
           </table>
         </div>
         <p class="tiny faint" style="margin-top: var(--s-3)">
-          Measured from this project's own call logs, not a vendor price list. A single
-          full run on Opus was measured at about $24 before the effort split; the
-          numbers above reflect the split design — one evidence pass at maximum effort,
-          judgement passes at high.
+          <strong>Only the first row is measured.</strong> It is the real call log for
+          the published Tesla report: 231 calls and $27.05, including every retry and the
+          six failed attempts one phase needed before its output contract was fixed. A
+          clean single pass costs less than that. The council, red team, bias checks and
+          verifier <strong>were not run</strong> for that report, so their rows are
+          estimates derived from comparable phases, not measurements — marked as such
+          rather than quietly averaged in.
         </p>
       </div>
     </div>
@@ -132,8 +135,8 @@
         the red team, bias checks and the claim-by-claim verifier — with the council's
         disagreement shown rather than averaged.
       </p>
-      <p class="num" style="font-size: var(--step-2)" id="pro-headline">~$12–25</p>
-      <p class="tiny faint">Per report, in model costs alone.</p>
+      <p class="num" style="font-size: var(--step-2)" id="pro-headline">~$27</p>
+      <p class="tiny faint">Measured on the published Tesla report, retries included. Model costs alone.</p>
     </div>
   </div>
 
@@ -153,15 +156,20 @@
   "use strict";
   var fmt = window.Meridian.fmt;
 
-  /* Measured per-stage costs from this project's own call log (2026-10-23 and
-     2026-11-03 runs), not a price list. Kept here rather than hidden in a comment so the
-     page can show its arithmetic. */
+  /* Two tiers, labelled, because only one of them is measured.
+     MEASURED: the fifteen analysis phases of the published TSLA report, aggregated from
+     this project's own call log - 231 calls, $27.05, including every retry and the six
+     failed attempts on one phase. A clean single pass is cheaper than that figure.
+     ESTIMATED: the council, red team, bias checks and verifier were NOT run for that
+     report, so there is nothing measured to quote. These come from the per-call costs of
+     comparable phases and are marked as estimates. Presenting them as measured, which an
+     earlier version of this page did, was wrong. */
   var STAGES = [
-    ["16 analysis phases", 112, 9.40],
-    ["5 council seats + chairman", 24, 2.60],
-    ["Red team", 7, 0.70],
-    ["Bias checks", 7, 0.55],
-    ["Verifier", 9, 0.80]
+    ["15 analysis phases", 231, 27.05, true],
+    ["5 council seats + chairman", 24, 2.60, false],
+    ["Red team", 7, 0.70, false],
+    ["Bias checks", 7, 0.55, false],
+    ["Verifier", 9, 0.80, false]
   ];
 
   function estimate() {
@@ -169,7 +177,10 @@
     var calls = 0, cost = 0;
     var rows = STAGES.map(function (s) {
       calls += s[1]; cost += s[2];
-      return "<tr><td>" + s[0] + '</td><td class="n">' + s[1] +
+      var tag = s[3]
+        ? '<span class="chip chip--accent">measured</span>'
+        : '<span class="chip chip--caution">estimate</span>';
+      return "<tr><td>" + s[0] + " " + tag + '</td><td class="n">' + s[1] +
         '</td><td class="n">' + fmt.money(s[2]) + "</td></tr>";
     });
     rows.push('<tr><td><strong>Total for ' + t + "</strong></td>" +

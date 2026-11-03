@@ -1,6 +1,6 @@
 {
   "last_updated": "2026-11-03",
-  "generated_at": "2026-11-03T08:25:32+00:00",
+  "generated_at": "2026-11-03T12:19:01+00:00",
   "tickers": [
     {
       "symbol": "AAPL",
@@ -78,6 +78,13 @@
       "sector": "Interactive media",
       "as_of": "2026-11-02",
       "price": 606.72998046875
+    },
+    {
+      "symbol": "MSFT",
+      "name": "MICROSOFT CORP",
+      "sector": "Software",
+      "as_of": "2026-11-02",
+      "price": 507.1199951171875
     },
     {
       "symbol": "NVDA",

@@ -165,7 +165,7 @@
       <div class="figure">
         <p class="eyebrow">DCF fair value per share</p>
         <div class="demo-row">
-          <span class="figure__value num" data-confidence="low">$<span data-fv>248</span></span>
+          <span class="figure__value num" data-confidence="low">$<span data-fv>—</span></span>
           <span class="small muted">P10–P90 from 10,000 simulations</span>
         </div>
         <div class="band" id="hero-band">
@@ -173,7 +173,7 @@
           <div class="band__mark" data-label="Price"></div>
           <div class="band__tick"></div>
         </div>
-        <div class="band-scale"><span data-lo>$132</span><span data-hi>$389</span></div>
+        <div class="band-scale"><span data-lo>—</span><span data-hi>—</span></div>
         <p class="tiny faint">
           The band is wide because the inputs are. A single number here would be the
           lie — so the figure is set in the weight its own spread earns.
@@ -220,18 +220,20 @@
 
       <hr class="rule">
 
-      <div class="row-between">
-        <div>
-          <p class="eyebrow">Council agreement</p>
-          <p class="tiny faint">Five independent seats review the valuation</p>
-        </div>
-        <div class="seats" role="img" aria-label="4 of 5 seats agree, 1 against">
-          <span class="seats__seat" data-vote="agree"></span>
-          <span class="seats__seat" data-vote="agree"></span>
-          <span class="seats__seat" data-vote="agree"></span>
-          <span class="seats__seat" data-vote="agree"></span>
-          <span class="seats__seat" data-vote="against"></span>
-          <span class="seats__label">4/5</span>
+      <div>
+        <p class="eyebrow">Council agreement</p>
+        <p class="small muted" style="margin-top: var(--s-2)">
+          The five-seat council and the red team are implemented and tested, but
+          <strong>were not run for this sample report</strong> — they cost real money per
+          ticker. So there is no seat split to show here, and showing one would be
+          inventing a review that did not happen.
+        </p>
+        <div class="seats" role="img" aria-label="Council not run: five empty seats"
+             style="margin-top: var(--s-3)">
+          <span class="seats__seat"></span><span class="seats__seat"></span>
+          <span class="seats__seat"></span><span class="seats__seat"></span>
+          <span class="seats__seat"></span>
+          <span class="seats__label">not run</span>
         </div>
       </div>
     </div>
@@ -243,9 +245,12 @@
     <hr class="mark">
     <h2>Pick a ticker</h2>
     <p class="muted small" style="margin-top: var(--s-2)">
-      Free numbers-only reports: the full computation layer — statements, ratios,
-      forensics, credit, risk, technicals, DCF and comps — with no AI narrative.
-      Rebuilt every weekday.
+      Free numbers-only reports: the engine's own full report with the analysis slots left
+      empty — ten years of standardised statements, ratios, four forensic screens, credit,
+      risk, technicals, factor regressions, DCF, reverse DCF, comps and a 10,000-path Monte
+      Carlo, with every chart the snapshot can support. Thirteen sections and a sticky
+      table of contents, same as the paid report. No language model has seen them.
+      Rebuilt every weekday by a scheduled job that commits and pushes.
     </p>
 
     <form class="ticker-form" style="margin-top: var(--s-5)" data-ticker-form>
@@ -278,13 +283,14 @@
         </p>
         <p class="small">
           <strong>Try it:</strong> hover
-          <span class="prov" tabindex="0" role="button">this number — 18.4%
+          <span class="prov" tabindex="0" role="button">this illustrative number
             <span class="prov__card">
-              <span class="prov__kind">Computation</span>
-              <span class="prov__body">Return on invested capital, trailing twelve
-              months, computed from the standardised statements.</span>
-              <span class="prov__formula">ROIC = NOPAT / (total debt + equity − cash)</span>
-              <span class="prov__cite">engine/compute/ratios.py · FY2025 10-K</span>
+              <span class="prov__kind">Example</span>
+              <span class="prov__body">This one is a demonstration of the interaction, not
+              a figure from a filing — which is why it carries no value and no citation.
+              Every <em>real</em> provenance mark names the module that computed it or the
+              filing section it was read from.</span>
+              <span class="prov__cite">See any ticker report for live ones</span>
             </span>
           </span>
           anywhere on the site.
@@ -428,7 +434,8 @@
     })
     .catch(function () { /* bands stay at their neutral default */ });
 
-  /* Ticker index. Loaded rather than inlined so the daily job only rewrites JSON. */
+  /* Ticker index, loaded rather than inlined: the daily job rewrites it along with
+     every ticker report, and this page should not need regenerating to stay current. */
   fetch("data/index.json")
     .then(function (r) { return r.ok ? r.json() : null; })
     .then(function (idx) {

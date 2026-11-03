@@ -175,7 +175,7 @@
 
   <h3 style="margin-top:0.2in">What a visitor can do, with no login and no sign-up</h3>
   <ul>
-    <li><strong>Numbers-only reports</strong> for 17 large companies across sectors:
+    <li><strong>Numbers-only reports</strong> for 18 large companies across sectors:
       standardised statements, ratios, four forensic accounting screens, credit, risk,
       technicals, factor regressions, DCF, reverse DCF, comps and a 10,000-path Monte
       Carlo.</li>
@@ -229,7 +229,7 @@
       </figure>
       <figure class="shot">
         <img src="shots/screener.png" alt="Screener">
-        <figcaption>Screener — four preset screens over all 17 covered
+        <figcaption>Screener — four preset screens over all 18 covered
           companies.</figcaption>
       </figure>
       <figure class="shot">
@@ -294,8 +294,7 @@
       <p class="eyebrow" style="color:var(--caution)">Runs locally</p>
       <p style="margin-top:4px"><strong>The full AI analysis, because of API cost.</strong>
         The sixteen analysis phases, the five-seat council, the red team, the bias checks
-        and the verifier are frontier-model calls costing roughly <strong>$10–25 per
-        report</strong>. Running one per company per day is not something a class project
+        and the verifier are frontier-model calls which cost <strong>$27 for the published Tesla report</strong>, retries included. Running one per company per day is not something a class project
         can fund, so the AI stage runs on a local machine on request. The published
         <strong>sample report</strong> and the <strong>demo video</strong> show exactly what
         it produces.</p>
@@ -318,7 +317,7 @@
 
   <h3 style="margin-top:0.16in">Claude as the engineer</h3>
   <p>
-    Roughly 133 Python modules and 2,400 tests, built task by task against a written
+    133 Python modules and 2,483 tests, built task by task against a written
     specification. The work included the parts that are easy to skip: point-in-time tests
     for every loader, accounting identity assertions, a response contract with no numeric
     field, and a spending ledger that refuses a call before making it.
