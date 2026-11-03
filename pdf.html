@@ -10,9 +10,42 @@
      primary medium and the screen rendering is the preview. */
   @page { size: Letter; margin: 0.6in 0.75in; }
 
-  :root { --page-w: 7in; }
+  /* The shared stylesheet is dark-only now, so its semantic colours are light text for
+     a dark background. This document prints on white paper, so it restores the light
+     palette for itself. Without this the body text arrives as pale grey on white and is
+     effectively unreadable in print. */
+  :root {
+    --page-w: 7in;
+    --bg:          #ffffff;
+    --bg-raised:   #ffffff;
+    --bg-sunken:   #f7f5f0;
+    --bg-inset:    #eee9df;
 
-  html, body { background: var(--bg); }
+    --ink:         #0d131f;
+    --ink-soft:    #223044;
+    --ink-muted:   #4f5c71;
+    --ink-faint:   #68758a;
+
+    --rule:        #e6e1d6;
+    --rule-strong: #d4cec0;
+
+    --accent:      #15655b;
+    --accent-ink:  #0e4a43;
+    --accent-wash: color-mix(in oklab, #1f8577 10%, transparent);
+
+    --caution:       #8a6115;
+    --caution-wash:  color-mix(in oklab, #d79f3c 14%, transparent);
+    --negative:      #a8482f;
+    --negative-wash: color-mix(in oklab, #cc6f5a 12%, transparent);
+    --positive:      #15655b;
+  }
+
+  html, body { background: #ffffff; color: var(--ink); }
+  /* The muted tiers are print-legible rather than screen-faint. */
+  .muted, .tiny-note, .kv dd, .shot figcaption, .meta dt { color: var(--ink-muted); }
+  .faint { color: var(--ink-muted); }
+  .eyebrow { color: var(--ink-soft); }
+  .eyebrow-accent { color: var(--accent); }
   body { font-size: 10.5pt; line-height: 1.5; }
 
   .sheet {
@@ -297,8 +330,7 @@
       <p style="margin-top:4px"><strong>The full AI analysis, because of API cost.</strong>
         The sixteen analysis phases, the five-seat council, the red team, the bias checks
         and the verifier are frontier-model calls which cost <strong>about $25 to $27 per report</strong>, measured on the published Tesla report with retries included. Running one per company per day is not something a class project
-        can fund, so the AI stage runs on a local machine on request. The published
-        published <strong>sample report</strong> shows exactly what it produces.</p>
+        can fund, so the AI stage runs on a local machine on request. The published <strong>sample report</strong> shows exactly what it produces.</p>
     </div>
   </div>
   <p class="tiny-note" style="margin-top:0.1in">
@@ -341,15 +373,7 @@
     through tool calls rather than performing them.
   </p>
   <p>
-    The most instructive result was a <strong>refusal</strong>. One phase tried six times
-    to record a catalyst dated "Q3 2026" and the contract rejected it each time, because
-    the field required an exact day. The contract was right not to accept a date the model
-    could not justify, and the design was wrong to force the choice. It now separates
-    <em>where a date came from</em> (confirmed or inferred) from <em>how precisely it is
-    known</em> (day, month, quarter, window, none), so a quarter is a complete answer
-    instead of a failure to be exact. The fix was a design change, not a louder
-    instruction.
-  </p>
+    The most instructive result was a <strong>refusal</strong>: the output contract rejected a catalyst the model could not date precisely, six times, rather than accept a date it could not justify. The note below records what that cost and what it changed.</p>
   <div class="box" style="margin-top:0.14in">
     <p class="eyebrow">Note on the sample report</p>
     <p style="margin-top:4px;font-size:9.5pt">
