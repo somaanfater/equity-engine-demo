@@ -21,7 +21,10 @@
     padding-block: 0.4in;
     break-after: page;
   }
-  .sheet:last-child { break-after: auto; }
+  /* :last-of-type, not :last-child — the <script> tag is body's last child, so
+     :last-child never matched and the final sheet kept its trailing page break,
+     producing a blank seventh page. */
+  .sheet:last-of-type { break-after: auto; }
 
   h1 { font-size: 30pt; line-height: 1.05; letter-spacing: -0.025em; }
   h2 { font-size: 16pt; margin-bottom: 0.08in; }
@@ -45,7 +48,12 @@
 
   .shot { border: 1px solid var(--rule-strong); border-radius: 4px;
           overflow: hidden; background: var(--bg-sunken); break-inside: avoid; }
-  .shot img { width: 100%; display: block; }
+  /* Capped and top-cropped. A 1440x2100 screenshot scaled to a 7in column is ten
+     inches tall and pushes the sheet onto a second page; the top of each page is the
+     part worth showing anyway. */
+  .shot img { width: 100%; display: block; max-height: 2.5in;
+              object-fit: cover; object-position: top center; }
+  .shots-2 .shot img { max-height: 1.75in; }
   .shot figcaption { font-size: 8pt; color: var(--ink-muted);
                      padding: 5px 8px; border-top: 1px solid var(--rule); }
   .shots { display: grid; gap: 0.16in; }
@@ -167,7 +175,7 @@
 
   <h3 style="margin-top:0.2in">What a visitor can do, with no login and no sign-up</h3>
   <ul>
-    <li><strong>Numbers-only reports</strong> for ~18 large companies across sectors:
+    <li><strong>Numbers-only reports</strong> for 17 large companies across sectors:
       standardised statements, ratios, four forensic accounting screens, credit, risk,
       technicals, factor regressions, DCF, reverse DCF, comps and a 10,000-path Monte
       Carlo.</li>
@@ -209,44 +217,32 @@
   <div class="shots">
     <figure class="shot">
       <img src="shots/home.png" alt="Home page">
-      <figcaption>Home — the headline itself contains a live provenance mark and a live
+      <figcaption>Home — the headline itself carries a live provenance mark and a live
         confidence band, so a visitor learns the interaction before reading an
         explanation.</figcaption>
     </figure>
     <div class="shots shots-2">
       <figure class="shot">
         <img src="shots/build-dcf.png" alt="Build your own DCF">
-        <figcaption>Build your own DCF — mechanical versus yours, side by side, with the
-          consistency check live.</figcaption>
+        <figcaption>Build your own DCF — mechanical versus yours, with the
+          growth = reinvestment × ROIC check live.</figcaption>
       </figure>
       <figure class="shot">
         <img src="shots/screener.png" alt="Screener">
-        <figcaption>Screener — four preset screens over the covered set.</figcaption>
+        <figcaption>Screener — four preset screens over all 17 covered
+          companies.</figcaption>
       </figure>
-    </div>
-  </div>
-</section>
-
-<section class="sheet">
-  <h2>The report, and the provenance</h2>
-  <div class="shots">
-    <div class="shots shots-2">
       <figure class="shot">
         <img src="shots/ticker.png" alt="Numbers-only ticker report">
-        <figcaption>A free numbers-only report. Every score carries its formula and its
+        <figcaption>A free numbers-only report: every score carries its formula and its
           paper.</figcaption>
       </figure>
       <figure class="shot">
-        <img src="shots/provenance.png" alt="A provenance card open">
-        <figcaption>A provenance card: the formula, the module and the
-          source.</figcaption>
+        <img src="shots/report.png" alt="Full AI report">
+        <figcaption>The flagship full AI report — 13 sections, 62 charts, the audit trail
+          and every data gap.</figcaption>
       </figure>
     </div>
-    <figure class="shot">
-      <img src="shots/report.png" alt="Full AI report">
-      <figcaption>The flagship full AI report — the complete engine output, including the
-        chart pack, the audit trail and every data gap.</figcaption>
-    </figure>
   </div>
 </section>
 
