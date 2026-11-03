@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Generate a full AI report — Equity Research Engine</title>
+<meta name="description" content="What a full AI report costs to produce, and why it is not offered on demand in this demo.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/meridian.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231f8577'/><path d='M8 20h16M8 12v4M16 9v7M24 12v4' stroke='%23fdfcfa' stroke-width='2.2' stroke-linecap='round'/></svg>">
+<script>try{var t=localStorage.getItem("meridian-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+  .steps { counter-reset: step; }
+  .step {
+    display: grid; grid-template-columns: auto 1fr; gap: var(--s-4);
+    padding: var(--s-5) 0; border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step__n {
+    font-family: var(--font-num); font-size: var(--step--1);
+    width: 2rem; height: 2rem; display: grid; place-items: center;
+    border-radius: 50%; border: 1px solid var(--rule-strong); color: var(--ink-muted);
+  }
+  .step[data-state="done"] .step__n {
+    background: var(--accent); border-color: var(--accent); color: var(--paper-50);
+  }
+  :root[data-theme="dark"] .step[data-state="done"] .step__n { color: var(--ink-950); }
+  .step[data-state="blocked"] .step__n {
+    border-style: dashed; color: var(--caution); border-color: var(--caution);
+  }
+  .cost-table td.n { font-variant-numeric: tabular-nums; }
+  .ticker-input {
+    font-family: var(--font-num); font-size: var(--step-0);
+    text-transform: uppercase; letter-spacing: var(--tracking-wide);
+    padding: 0.6rem 0.8rem; background: var(--bg-raised); color: var(--ink);
+    border: 1px solid var(--rule-strong); border-radius: var(--radius);
+    width: min(100%, 12rem);
+  }
+</style>
+</head>
+<body>
+<header data-shell-header></header>
+<main class="wrap">
+
+<section class="section">
+  <p class="eyebrow eyebrow-accent">Pro</p>
+  <h1 style="margin-top: var(--s-2)">Generate a full AI report</h1>
+  <p class="lede" style="margin-top: var(--s-3); max-width: var(--measure)">
+    The free reports stop after the computation layer. A full report runs all sixteen AI
+    phases, the five-seat council, the red team, the bias checks and the verifier — and
+    that costs real money per ticker. Here is exactly what it costs and what you would get.
+  </p>
+
+  <div class="card steps" style="margin-top: var(--s-7)">
+    <div class="step" data-state="done">
+      <span class="step__n">1</span>
+      <div>
+        <h3 style="font-size: var(--step-1)">Pick a ticker</h3>
+        <p class="small muted" style="margin-top: var(--s-2)">
+          Any US filer with at least four years of filings — the forensic screens need
+          four years of history to compute.
+        </p>
+        <div class="row" style="margin-top: var(--s-3)">
+          <input class="ticker-input" id="pro-ticker" value="NVDA"
+                 aria-label="Ticker" autocomplete="off" spellcheck="false">
+          <button class="btn btn--ghost btn--sm" id="pro-estimate">Estimate cost</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-state="done">
+      <span class="step__n">2</span>
+      <div>
+        <h3 style="font-size: var(--step-1)">Review the estimate</h3>
+        <p class="small muted" style="margin-top: var(--s-2)">
+          The engine assembles every prompt and counts tokens before sending anything, so
+          the estimate comes from the real prompts rather than a rule of thumb. Nothing is
+          ever sent until the estimate is accepted.
+        </p>
+        <div class="card card--flush table-scroll" style="margin-top: var(--s-4)">
+          <table class="data cost-table">
+            <thead><tr>
+              <th>Stage</th><th class="n">Calls</th><th class="n">Est. cost</th>
+            </tr></thead>
+            <tbody id="pro-cost"></tbody>
+          </table>
+        </div>
+        <p class="tiny faint" style="margin-top: var(--s-3)">
+          Measured from this project's own call logs, not a vendor price list. A single
+          full run on Opus was measured at about $24 before the effort split; the
+          numbers above reflect the split design — one evidence pass at maximum effort,
+          judgement passes at high.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" data-state="blocked">
+      <span class="step__n">3</span>
+      <div>
+        <h3 style="font-size: var(--step-1)">Run it — <span class="warn">Pro: coming soon</span></h3>
+        <p class="small muted" style="margin-top: var(--s-2)">
+          Not available in this demo, and deliberately so. There is <strong>no backend
+          here</strong> — this site is static files on a CDN, with no server, no database,
+          no account system and no form that collects your email or anything else. Running
+          a report on demand would need all four, plus a way to bill for it.
+        </p>
+        <div class="notice" style="margin-top: var(--s-4)">
+          What you can read instead: the <a href="report.html">full sample report</a> — one
+          complete Tesla analysis, every phase, rendered exactly as the engine produced it.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="margin-top: var(--s-7)">
+    <div class="card stack" style="--flow: var(--s-3)">
+      <p class="eyebrow eyebrow-accent">Free, every weekday</p>
+      <h3 style="font-size: var(--step-1)">Numbers-only report</h3>
+      <p class="small muted">
+        The whole computation layer: standardised statements, ratios, forensic screens,
+        credit, risk, technicals, factor regressions, DCF, reverse DCF, comps and Monte
+        Carlo. Every figure traceable. No AI narrative.
+      </p>
+      <p class="num" style="font-size: var(--step-2)">$0.00</p>
+    </div>
+    <div class="card card--accent stack" style="--flow: var(--s-3)">
+      <p class="eyebrow eyebrow-accent">On request</p>
+      <h3 style="font-size: var(--step-1)">Full AI report</h3>
+      <p class="small muted">
+        Everything above, plus sixteen analysis phases, the five-seat council and chairman,
+        the red team, bias checks and the claim-by-claim verifier — with the council's
+        disagreement shown rather than averaged.
+      </p>
+      <p class="num" style="font-size: var(--step-2)" id="pro-headline">~$12–25</p>
+      <p class="tiny faint">Per report, in model costs alone.</p>
+    </div>
+  </div>
+
+  <div class="notice notice--caution" style="margin-top: var(--s-6)">
+    <strong>Demo — not offered for sale.</strong> No report produced by this engine is
+    offered for sale, and several of its data sources permit personal research only and not
+    redistribution. Educational project, not investment advice.
+  </div>
+</section>
+
+</main>
+<footer data-shell-footer></footer>
+<script src="assets/js/meridian.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  "use strict";
+  var fmt = window.Meridian.fmt;
+
+  /* Measured per-stage costs from this project's own call log (2026-10-23 and
+     2026-11-03 runs), not a price list. Kept here rather than hidden in a comment so the
+     page can show its arithmetic. */
+  var STAGES = [
+    ["16 analysis phases", 112, 9.40],
+    ["5 council seats + chairman", 24, 2.60],
+    ["Red team", 7, 0.70],
+    ["Bias checks", 7, 0.55],
+    ["Verifier", 9, 0.80]
+  ];
+
+  function estimate() {
+    var t = (document.getElementById("pro-ticker").value || "").trim().toUpperCase() || "—";
+    var calls = 0, cost = 0;
+    var rows = STAGES.map(function (s) {
+      calls += s[1]; cost += s[2];
+      return "<tr><td>" + s[0] + '</td><td class="n">' + s[1] +
+        '</td><td class="n">' + fmt.money(s[2]) + "</td></tr>";
+    });
+    rows.push('<tr><td><strong>Total for ' + t + "</strong></td>" +
+      '<td class="n"><strong>' + calls + "</strong></td>" +
+      '<td class="n"><strong>' + fmt.money(cost) + "</strong></td></tr>");
+    document.getElementById("pro-cost").innerHTML = rows.join("");
+  }
+
+  document.getElementById("pro-estimate").addEventListener("click", estimate);
+  document.getElementById("pro-ticker").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); estimate(); }
+  });
+  estimate();
+})();
+</script>
+</body>
+</html>

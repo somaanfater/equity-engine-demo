@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How it works — Equity Research Engine</title>
+<meta name="description" content="Snapshot, compute, sixteen AI phases, a five-seat council, red team, bias checks, verifier, report — and the rules each stage enforces.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/meridian.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231f8577'/><path d='M8 20h16M8 12v4M16 9v7M24 12v4' stroke='%23fdfcfa' stroke-width='2.2' stroke-linecap='round'/></svg>">
+<script>try{var t=localStorage.getItem("meridian-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+  /* The pipeline. Drawn with CSS rather than an image so it is legible at any
+     width, readable by a screen reader, and recolours with the theme. */
+  .pipe { display: grid; gap: var(--s-3); margin-top: var(--s-6); }
+  .stage {
+    display: grid; grid-template-columns: 3.5rem 1fr; gap: var(--s-4);
+    align-items: start;
+    padding: var(--s-4);
+    background: var(--bg-raised);
+    border: 1px solid var(--rule);
+    border-left: 2px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    position: relative;
+  }
+  .stage--deterministic { border-left-color: var(--accent); }
+  .stage--ai { border-left-color: var(--ochre-400); }
+  .stage--check { border-left-color: var(--slate-400); }
+  .stage__n {
+    font-family: var(--font-num); font-size: var(--step--1);
+    color: var(--ink-muted);
+    display: grid; place-items: center;
+    width: 2.25rem; height: 2.25rem;
+    border: 1px solid var(--rule-strong); border-radius: 50%;
+  }
+  .stage h3 { font-size: var(--step-1); font-family: var(--font-display); }
+  .stage p { font-size: var(--step--1); color: var(--ink-soft);
+             margin-top: var(--s-2); max-width: 62ch; }
+  .stage__meta { display: flex; gap: var(--s-2); flex-wrap: wrap;
+                 margin-top: var(--s-3); }
+  /* The connector between stages. */
+  .stage::after {
+    content: ""; position: absolute; left: calc(3.5rem / 2 + var(--s-4) - 1px);
+    top: 100%; height: var(--s-3); width: 1px; background: var(--rule-strong);
+  }
+  .pipe > .stage:last-child::after { display: none; }
+
+  .legend { display: flex; gap: var(--s-5); flex-wrap: wrap; font-size: var(--step--2); }
+  .legend span { display: inline-flex; align-items: center; gap: var(--s-2); }
+  .legend i { width: 14px; height: 2px; display: inline-block; }
+</style>
+</head>
+<body>
+<header data-shell-header></header>
+<main class="wrap">
+
+<section class="section">
+  <p class="eyebrow eyebrow-accent">Architecture</p>
+  <h1 style="margin-top: var(--s-2)">How it works</h1>
+  <p class="lede" style="margin-top: var(--s-3); max-width: var(--measure)">
+    One rule shapes everything else: <strong>the language model never does
+    arithmetic</strong>. Every number comes from Python or from a cited source. The phases
+    reason over computed figures and request new calculations through tool calls — they are
+    never asked to produce a figure, because a model that can produce one can invent one.
+  </p>
+
+  <div class="legend" style="margin-top: var(--s-5)">
+    <span><i style="background: var(--accent)"></i> Deterministic — Python, no model</span>
+    <span><i style="background: var(--ochre-400)"></i> AI — a model reasoning over computed numbers</span>
+    <span><i style="background: var(--slate-400)"></i> Check — can only remove or flag, never add</span>
+  </div>
+
+  <div class="pipe">
+
+    <div class="stage stage--deterministic">
+      <span class="stage__n">01</span>
+      <div>
+        <h3>Snapshot</h3>
+        <p>
+          Every source is fetched once and frozen into a hashed directory: SEC filings and
+          XBRL facts, prices, FRED macro series, Form 4 insider transactions, 13F holdings,
+          FINRA short interest, Fama–French factors, the implied equity risk premium, peer
+          financials. Each loader takes an as-of date and must not return anything
+          published after it. Every run and every council seat reads the same frozen
+          snapshot — nothing fetches live data once it is sealed.
+        </p>
+        <div class="stage__meta">
+          <span class="chip">point-in-time</span>
+          <span class="chip">hashed &amp; read-only</span>
+          <span class="chip chip--caution">gaps recorded, never filled</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--deterministic">
+      <span class="stage__n">02</span>
+      <div>
+        <h3>Compute</h3>
+        <p>
+          Ten years of annual and forty quarters of standardised statements, then every
+          metric: margins, DuPont, working-capital days, ROIC, FCF variants, accrual ratio.
+          Forensics — Beneish M, Altman Z, Piotroski F, Sloan, Montier C. Credit, including
+          Merton distance-to-default and a maturity ladder. Risk: beta raw and Blume,
+          Jensen's alpha, Sharpe, Sortino, VaR and CVaR, drawdown and recovery, historical
+          stress replays. Technicals and Fama–French regressions. Then the full valuation
+          stack: driver-based DCF, reverse DCF, comps, Monte Carlo, earnings power, LBO
+          ceiling, SOTP. Accounting identities are asserted — a balance sheet that does not
+          balance raises rather than rounds.
+        </p>
+        <div class="stage__meta">
+          <span class="chip">every figure a pure function</span>
+          <span class="chip">unit-tested against hand-checked values</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--ai">
+      <span class="stage__n">03</span>
+      <div>
+        <h3>Sixteen analysis phases</h3>
+        <p>
+          Business and moat, forensic accounting, management track record, product
+          pipeline, industry structure, macro exposure, operations, governance, sentiment
+          and positioning, technicals, legal and regulatory, valuation judgement, primary
+          research, scenarios, and trade construction. Each receives the computed metrics
+          as input and returns typed, validated output — the response contract has no field
+          to put a free-floating number in, so the constraint is structural rather than an
+          instruction the model is asked to follow.
+        </p>
+        <div class="stage__meta">
+          <span class="chip chip--accent">Claude Opus</span>
+          <span class="chip">typed Pydantic contracts</span>
+          <span class="chip">tool calls for new maths</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--ai">
+      <span class="stage__n">04</span>
+      <div>
+        <h3>Five-seat council</h3>
+        <p>
+          Five independent reviewers read the assembled analysis from different mandates
+          and vote, and a chairman reconciles them. Disagreement is kept rather than
+          averaged: the report shows the split, because four-of-five is a fact about a small
+          panel and a percentage would launder it into something that sounds continuous.
+          A seat that fails validation is retried with the error fed back, and if it still
+          fails it is logged as a high-impact gap and shown — never silently dropped.
+        </p>
+        <div class="stage__meta">
+          <span class="chip">dispersion from the seats</span>
+          <span class="chip">chairman verdict persisted</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--ai">
+      <span class="stage__n">05</span>
+      <div>
+        <h3>Red team</h3>
+        <p>
+          A dedicated adversarial pass whose only job is to attack the conclusion: find the
+          strongest bear case, the load-bearing assumption, and the evidence that would
+          falsify the thesis. It runs after the council so it has the actual argument to
+          attack rather than a draft.
+        </p>
+      </div>
+    </div>
+
+    <div class="stage stage--check">
+      <span class="stage__n">06</span>
+      <div>
+        <h3>Bias checks</h3>
+        <p>
+          Structured checks for the failure modes this kind of pipeline actually has:
+          anchoring on the current price, confirmation in the evidence selection,
+          base-rate neglect in the scenarios, and false precision in the language. Each
+          produces a finding attached to the section it affects.
+        </p>
+      </div>
+    </div>
+
+    <div class="stage stage--check">
+      <span class="stage__n">07</span>
+      <div>
+        <h3>Verifier</h3>
+        <p>
+          Every numeric claim in the draft is checked back against the computed figures,
+          and every factual claim against its cited source. A claim that cannot be verified
+          is removed; one that is unverifiable but load-bearing is kept and labelled as
+          such. The verifier can only delete or flag — it can never add a number, so it
+          cannot become a second author.
+        </p>
+        <div class="stage__meta">
+          <span class="chip">claims checked against computed values</span>
+          <span class="chip chip--negative">unverified claims removed</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage stage--deterministic">
+      <span class="stage__n">08</span>
+      <div>
+        <h3>Report</h3>
+        <p>
+          Rendered with every figure carrying its provenance, every estimate carrying its
+          range, and a manifest recording the model version, the snapshot hash, the git
+          commit and the exact cost — so the same run can be rebuilt and audited later.
+        </p>
+        <div class="stage__meta">
+          <span class="chip">reproducible manifest</span>
+          <span class="chip"><a href="report.html" style="color:inherit">see the output →</a></span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section class="section">
+  <hr class="mark">
+  <h2>What this demo runs, and what it doesn't</h2>
+  <div class="grid grid-2" style="margin-top: var(--s-5)">
+    <div class="card stack" style="--flow: var(--s-3)">
+      <p class="eyebrow eyebrow-accent">Runs daily, free</p>
+      <h3 style="font-size: var(--step-1)">Stages 1 and 2</h3>
+      <p class="small muted">
+        The snapshot and the entire computation layer, for every covered ticker, rebuilt
+        each weekday after the US close by a scheduled job. Free data sources only, so it
+        costs nothing to run and can run unattended.
+      </p>
+    </div>
+    <div class="card stack" style="--flow: var(--s-3)">
+      <p class="eyebrow" style="color: var(--caution)">Runs on request, costs money</p>
+      <h3 style="font-size: var(--step-1)">Stages 3 to 8</h3>
+      <p class="small muted">
+        The AI phases, council, red team, bias checks and verifier are frontier-model calls
+        measured in dollars per report, not cents. One full sample report is published here;
+        running one per ticker per day is not something a class project can fund, which is
+        why the free reports stop at stage 2 and say so.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <hr class="mark">
+  <h2>The rules it will not break</h2>
+  <div class="grid grid-2" style="margin-top: var(--s-5)">
+    <div class="card small stack" style="--flow: var(--s-3)">
+      <p><strong>1. The model never does arithmetic.</strong> Numbers come from Python or a
+      cited source.</p>
+      <p><strong>2. No fabricated data.</strong> A failed or missing source is recorded as a
+      gap. Nothing is filled with a plausible value.</p>
+      <p><strong>3. Point-in-time only.</strong> Every loader takes an as-of date and is
+      tested for it.</p>
+      <p><strong>4. One frozen snapshot per analysis.</strong> Hashed, read-only.</p>
+    </div>
+    <div class="card small stack" style="--flow: var(--s-3)">
+      <p><strong>5. Everything typed and validated.</strong> No untyped dictionaries cross a
+      module boundary.</p>
+      <p><strong>6. Scraped text is untrusted.</strong> Document and web content is wrapped
+      in delimited data blocks; instructions found inside it are never followed.</p>
+      <p><strong>7. Reproducibility.</strong> Model version, seeds, snapshot hash and git
+      commit in every run's manifest.</p>
+      <p><strong>8. Cost control.</strong> Every model call passes one client that logs
+      tokens and enforces per-call, per-run and per-session caps.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <hr class="mark">
+  <h2>Watch it run</h2>
+  <div class="card" style="margin-top: var(--s-5); display: grid; place-items: center;
+       min-height: 14rem; border-style: dashed;">
+    <div style="text-align: center" class="stack">
+      <p class="eyebrow">Video</p>
+      <p class="muted small">A screen recording of one full run, end to end.</p>
+      <p class="tiny faint">[ YouTube link to be added ]</p>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer data-shell-footer></footer>
+<script src="assets/js/meridian.js"></script>
+<script src="assets/js/shell.js"></script>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Screener — Equity Research Engine</title>
+<meta name="description" content="Preset screens over every covered ticker: forensic red flags, price implies >25% growth, cheap vs growth, and momentum.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/meridian.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231f8577'/><path d='M8 20h16M8 12v4M16 9v7M24 12v4' stroke='%23fdfcfa' stroke-width='2.2' stroke-linecap='round'/></svg>">
+<script>try{var t=localStorage.getItem("meridian-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+  .screens { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+  .screen-btn {
+    text-align: left; cursor: pointer;
+    padding: var(--s-3) var(--s-4);
+    background: var(--bg-raised); color: var(--ink);
+    border: 1px solid var(--rule-strong); border-radius: var(--radius);
+    transition: all var(--fast) var(--ease);
+    flex: 1 1 13rem;
+  }
+  .screen-btn:hover { border-color: var(--accent); }
+  .screen-btn[aria-pressed="true"] {
+    border-color: var(--accent); background: var(--accent-wash);
+  }
+  .screen-btn strong { display: block; font-family: var(--font-ui);
+    font-size: var(--step--1); font-weight: 600; }
+  .screen-btn span { display: block; font-size: var(--step--2); color: var(--ink-muted);
+    margin-top: 2px; }
+
+  /* The hit bar: a row's headline number drawn as a proportion of the
+     screen's own range, so scanning the column is scanning the magnitudes. */
+  .bar { position: relative; height: 4px; background: var(--bg-inset);
+         border-radius: var(--radius-full); min-width: 4rem; }
+  .bar__fill { position: absolute; inset-block: 0; left: 0;
+               background: var(--accent); border-radius: var(--radius-full); }
+  .bar__fill[data-sign="neg"] { background: var(--negative); }
+</style>
+</head>
+<body>
+<header data-shell-header></header>
+<main class="wrap">
+
+<section class="section">
+  <p class="eyebrow eyebrow-accent">Interactive</p>
+  <h1 style="margin-top: var(--s-2)">Screener</h1>
+  <p class="lede" style="margin-top: var(--s-3); max-width: var(--measure)">
+    Four screens over every covered ticker. Each runs in your browser against the same
+    computed figures the reports use — nothing is recomputed on a server, and nothing is
+    fetched from a vendor.
+  </p>
+
+  <div class="screens" style="margin-top: var(--s-6)" role="group" aria-label="Preset screens">
+    <button class="screen-btn" data-screen="forensic" aria-pressed="true">
+      <strong>Forensic red flags</strong>
+      <span>Beneish above −1.78, Altman below 2.99, or Piotroski under 5</span>
+    </button>
+    <button class="screen-btn" data-screen="growth" aria-pressed="false">
+      <strong>Price implies &gt;25% growth</strong>
+      <span>Reverse DCF: the growth the current price already assumes</span>
+    </button>
+    <button class="screen-btn" data-screen="cheap" aria-pressed="false">
+      <strong>Cheap vs growth</strong>
+      <span>Upside to DCF fair value, against a narrow simulated band</span>
+    </button>
+    <button class="screen-btn" data-screen="momentum" aria-pressed="false">
+      <strong>Momentum</strong>
+      <span>12−1 month return with RSI not yet extended</span>
+    </button>
+  </div>
+
+  <div class="notice" id="screen-note" style="margin-top: var(--s-5)"></div>
+
+  <div class="card card--flush table-scroll" style="margin-top: var(--s-5)">
+    <table class="data">
+      <thead><tr id="screen-head"></tr></thead>
+      <tbody id="screen-body"></tbody>
+    </table>
+  </div>
+  <p class="tiny faint" style="margin-top: var(--s-3)" id="screen-count"></p>
+
+  <div class="notice notice--caution" style="margin-top: var(--s-6)">
+    <strong>A screen is a filter, not a finding.</strong> These rank the covered set on one
+    dimension each. A name passing a screen has not been analysed — that is what the sixteen
+    AI phases and the council do, and none of them has run on these tickers.
+  </div>
+</section>
+
+</main>
+<footer data-shell-footer></footer>
+<script src="assets/js/meridian.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  "use strict";
+  var M = window.Meridian, fmt = M.fmt;
+  var ROWS = [];
+
+  /* Each screen declares its own columns and its own sort, because "the top of this
+     list" means something different per screen and a shared table would flatten that. */
+  var SCREENS = {
+    forensic: {
+      note: "Names where at least one published accounting-quality screen is outside its " +
+            "safe range. Beneish above −1.78, Altman below 2.99, or Piotroski under 5. " +
+            "These are screens, not accusations — all three produce false positives on " +
+            "fast-growing and capital-intensive companies.",
+      test: function (r) {
+        return (r.beneish_m !== null && r.beneish_m > -1.78) ||
+               (r.altman_z !== null && r.altman_z < 2.99) ||
+               (r.piotroski_f !== null && r.piotroski_f < 5);
+      },
+      sort: function (a, b) { return (b.beneish_m || -9) - (a.beneish_m || -9); },
+      cols: [
+        ["Ticker", function (r) { return link(r); }, ""],
+        ["Beneish M", function (r) { return fmt.num(r.beneish_m); }, "n"],
+        ["Altman Z", function (r) { return fmt.num(r.altman_z); }, "n"],
+        ["Piotroski F", function (r) { return fmt.num(r.piotroski_f, 0); }, "n"],
+        ["Flags", function (r) { return flags(r); }, ""]
+      ]
+    },
+    growth: {
+      note: "The reverse DCF solves for the revenue growth rate the current price already " +
+            "implies, holding the other drivers. A high number is not a sell signal; it is " +
+            "a statement about what you would have to believe to pay today's price.",
+      test: function (r) { return r.implied_growth !== null && r.implied_growth > 0.25; },
+      sort: function (a, b) { return (b.implied_growth || 0) - (a.implied_growth || 0); },
+      cols: [
+        ["Ticker", function (r) { return link(r); }, ""],
+        ["Implied growth", function (r) { return fmt.pct(r.implied_growth); }, "n"],
+        ["", function (r) { return bar(r.implied_growth, 0.6); }, ""],
+        ["Price", function (r) { return fmt.money(r.price); }, "n"],
+        ["Fair value", function (r) { return fmt.money(r.fair_value); }, "n"]
+      ]
+    },
+    cheap: {
+      note: "Upside to the DCF fair value, shown beside the width of the simulated band. " +
+            "Large upside on a wide band is a different proposition from the same upside " +
+            "on a narrow one, so both are in the table rather than ranked into one score.",
+      test: function (r) { return r.upside !== null && r.upside > 0; },
+      sort: function (a, b) { return (b.upside || 0) - (a.upside || 0); },
+      cols: [
+        ["Ticker", function (r) { return link(r); }, ""],
+        ["Upside", function (r) { return fmt.pct(r.upside); }, "n"],
+        ["", function (r) { return bar(r.upside, 1.0); }, ""],
+        ["Band width", function (r) { return bandWidth(r); }, "n"],
+        ["WACC", function (r) { return fmt.pct(r.wacc); }, "n"]
+      ]
+    },
+    momentum: {
+      note: "Twelve-month return excluding the most recent month — the convention that " +
+            "avoids short-term reversal — filtered to names whose RSI has not yet reached " +
+            "the conventional overbought threshold of 70.",
+      test: function (r) {
+        return r.momentum !== null && r.momentum > 0 && (r.rsi === null || r.rsi < 70);
+      },
+      sort: function (a, b) { return (b.momentum || 0) - (a.momentum || 0); },
+      cols: [
+        ["Ticker", function (r) { return link(r); }, ""],
+        ["Momentum 12−1", function (r) { return fmt.pct(r.momentum); }, "n"],
+        ["", function (r) { return bar(r.momentum, 1.0); }, ""],
+        ["RSI (14)", function (r) { return fmt.num(r.rsi, 1); }, "n"],
+        ["Volatility", function (r) { return fmt.pct(r.volatility); }, "n"]
+      ]
+    }
+  };
+
+  function link(r) {
+    return '<a href="t/' + r.symbol + '.html" style="text-decoration:none">' +
+      '<strong class="num">' + r.symbol + '</strong></a>' +
+      '<span class="small muted"> ' + (r.sector || "") + "</span>";
+  }
+  function bar(v, scale) {
+    if (v === null || v === undefined) return "—";
+    var w = Math.min(Math.abs(v) / scale, 1) * 100;
+    return '<span class="bar" style="display:inline-block;width:5rem">' +
+      '<span class="bar__fill" data-sign="' + (v < 0 ? "neg" : "pos") +
+      '" style="width:' + w.toFixed(1) + '%"></span></span>';
+  }
+  function bandWidth(r) {
+    if (!r.fv_low || !r.fv_high || !r.fair_value) return "—";
+    return fmt.pct((r.fv_high - r.fv_low) / r.fair_value, 0);
+  }
+  function flags(r) {
+    var out = [];
+    if (r.beneish_m !== null && r.beneish_m > -1.78) out.push("Beneish");
+    if (r.altman_z !== null && r.altman_z < 2.99) out.push("Altman");
+    if (r.piotroski_f !== null && r.piotroski_f < 5) out.push("Piotroski");
+    return out.map(function (f) {
+      return '<span class="chip chip--caution">' + f + "</span>";
+    }).join(" ") || '<span class="chip">clear</span>';
+  }
+
+  function run(name) {
+    var s = SCREENS[name];
+    document.getElementById("screen-note").textContent = s.note;
+    document.getElementById("screen-head").innerHTML = s.cols.map(function (c) {
+      return '<th class="' + c[2] + '">' + c[0] + "</th>";
+    }).join("");
+    var hits = ROWS.filter(s.test).sort(s.sort);
+    document.getElementById("screen-body").innerHTML = hits.length
+      ? hits.map(function (r) {
+          return "<tr>" + s.cols.map(function (c) {
+            return '<td class="' + c[2] + '">' + c[1](r) + "</td>";
+          }).join("") + "</tr>";
+        }).join("")
+      : '<tr><td colspan="5" class="muted">No covered ticker passes this screen today. ' +
+        'That is a result, not an error.</td></tr>';
+    document.getElementById("screen-count").textContent =
+      hits.length + " of " + ROWS.length + " covered tickers pass.";
+    document.querySelectorAll("[data-screen]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.dataset.screen === name));
+    });
+  }
+
+  document.querySelectorAll("[data-screen]").forEach(function (b) {
+    b.addEventListener("click", function () { run(b.dataset.screen); });
+  });
+
+  fetch("data/screener.json")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      ROWS = (d && d.rows) || [];
+      run("forensic");
+    })
+    .catch(function () {
+      document.getElementById("screen-note").textContent =
+        "The screener data has not been generated yet.";
+    });
+})();
+</script>
+</body>
+</html>

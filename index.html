@@ -395,15 +395,30 @@
   "use strict";
   var M = window.Meridian;
 
-  /* The hero band: Tesla's simulated fair-value spread against the market price.
-     Values come from the committed snapshot's Monte Carlo output. */
-  var LO = 132.4, FV = 248.1, HI = 389.0, PRICE = 271.86;
-  M.placeBand(document.getElementById("hero-band"), LO, FV, HI, PRICE);
-  document.querySelector("[data-fv]").textContent = FV.toFixed(0);
-  document.querySelector("[data-lo]").textContent = "$" + LO.toFixed(0);
-  document.querySelector("[data-hi]").textContent = "$" + HI.toFixed(0);
+  /* The hero band is driven by the generated data, not by numbers typed into this
+     file. A hardcoded hero is the quickest way to end up showing a price the rest of
+     the site disagrees with - which it already did once. */
+  function drawHero(row) {
+    var lo = row && row.fv_low, hi = row && row.fv_high,
+        fv = row && row.fair_value, price = row && row.price;
+    if (!(lo && hi && fv)) return;
+    M.placeBand(document.getElementById("hero-band"), lo, fv, hi, price);
+    document.querySelector("[data-fv]").textContent = fv.toFixed(0);
+    document.querySelector("[data-lo]").textContent = "$" + lo.toFixed(0);
+    document.querySelector("[data-hi]").textContent = "$" + hi.toFixed(0);
+    var spread = (hi - lo) / fv;
+    document.querySelector(".figure__value").dataset.confidence =
+      spread < 0.4 ? "high" : (spread < 0.9 ? "medium" : "low");
+    M.placeBand(document.getElementById("pillar-band"), lo, fv, hi, price);
+  }
 
-  M.placeBand(document.getElementById("pillar-band"), 148, 243, 356, 271.86);
+  fetch("data/screener.json")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      var row = d && (d.rows || []).filter(function (x) { return x.symbol === "TSLA"; })[0];
+      drawHero(row || (d && d.rows && d.rows[0]));
+    })
+    .catch(function () { /* bands stay at their neutral default */ });
 
   /* Ticker index. Loaded rather than inlined so the daily job only rewrites JSON. */
   fetch("data/index.json")
