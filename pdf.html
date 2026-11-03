@@ -353,15 +353,18 @@
   <div class="box" style="margin-top:0.14in">
     <p class="eyebrow">Honest note on the sample report</p>
     <p style="margin-top:4px;font-size:9.5pt">
-      Fourteen of fifteen phases completed. The scenarios phase stopped partway through
-      when the run hit its spending cap — the cap refused the next call rather than
-      overrunning the budget. Its computed scenario valuations are real (they come from
-      tool calls into the Python valuation layer); its narrative is incomplete, and the
-      report says so where that section would be. The council, chairman and red team are
-      implemented and tested but were not run for this sample, so the report shows no
-      council agreement rather than implying one.
-    </p>
-  </div>
+      All fifteen phases completed, but it took six paid runs to get there and the reason
+      is worth stating. One phase failed its output contract nine times: it kept dating a
+      catalyst "Q3 2026" while the contract demanded an exact day. The contract was right
+      to refuse a date the model could not justify, and the design was wrong to force the
+      choice — it now separates <em>where a date came from</em> (confirmed or inferred)
+      from <em>how precisely it is known</em> (day, month, quarter, window, none). The root
+      cause was smaller and worse: the rules existed but were wired to no phase, so the
+      model had never been shown them.
+      <br><br>
+      The council, chairman and red team are implemented and tested but were not run for
+      this sample, so the report shows no council agreement rather than implying one.
+      </div>
 </section>
 
 <!-- ======================= 6. DISCLAIMER ======================= -->
