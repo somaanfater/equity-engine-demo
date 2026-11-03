@@ -3,33 +3,8 @@
 (function () {
   "use strict";
 
-  /* --- theme -------------------------------------------------------------
-     Stored, because a reader who picked dark should not get flashed light on
-     the next page. Applied before paint by the inline snippet in <head>. */
-  const KEY = "meridian-theme";
-
-  function systemTheme() {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  }
-  function currentTheme() {
-    return document.documentElement.dataset.theme || systemTheme();
-  }
-  function setTheme(next) {
-    document.documentElement.dataset.theme = next;
-    try { localStorage.setItem(KEY, next); } catch (e) { /* private mode */ }
-    document.querySelectorAll("[data-theme-toggle]").forEach(function (b) {
-      b.setAttribute("aria-label", next === "dark" ? "Switch to light" : "Switch to dark");
-      b.innerHTML = next === "dark" ? ICON_SUN : ICON_MOON;
-    });
-  }
-
-  const ICON_MOON = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
-  const ICON_SUN = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
-
-  document.addEventListener("click", function (e) {
-    const toggle = e.target.closest("[data-theme-toggle]");
-    if (toggle) setTheme(currentTheme() === "dark" ? "light" : "dark");
-  });
+  /* No theme machinery. The site is dark only, so there is no toggle, no
+     stored preference, and no class to apply before paint. */
 
   /* --- provenance --------------------------------------------------------
      The cards are CSS-driven for hover. This adds the keyboard path: every
@@ -61,21 +36,21 @@
      One place, so a number never appears in two shapes on two pages. */
   const fmt = {
     money: function (v, dp) {
-      if (v === null || v === undefined || !isFinite(v)) return "—";
+      if (v === null || v === undefined || !isFinite(v)) return "n/a";
       const d = dp === undefined ? 2 : dp;
       return "$" + v.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
     },
     pct: function (v, dp) {
-      if (v === null || v === undefined || !isFinite(v)) return "—";
+      if (v === null || v === undefined || !isFinite(v)) return "n/a";
       const d = dp === undefined ? 1 : dp;
       return (v * 100).toFixed(d) + "%";
     },
     mult: function (v, dp) {
-      if (v === null || v === undefined || !isFinite(v)) return "—";
+      if (v === null || v === undefined || !isFinite(v)) return "n/a";
       return v.toFixed(dp === undefined ? 1 : dp) + "×";
     },
     big: function (v) {
-      if (v === null || v === undefined || !isFinite(v)) return "—";
+      if (v === null || v === undefined || !isFinite(v)) return "n/a";
       const a = Math.abs(v);
       if (a >= 1e12) return (v / 1e12).toFixed(2) + "T";
       if (a >= 1e9) return (v / 1e9).toFixed(1) + "B";
@@ -84,7 +59,7 @@
       return v.toFixed(0);
     },
     num: function (v, dp) {
-      if (v === null || v === undefined || !isFinite(v)) return "—";
+      if (v === null || v === undefined || !isFinite(v)) return "n/a";
       return v.toFixed(dp === undefined ? 2 : dp);
     }
   };
@@ -131,13 +106,10 @@
     fmt: fmt,
     placeBand: placeBand,
     sparkline: sparkline,
-    wireProvenance: wireProvenance,
-    setTheme: setTheme,
-    currentTheme: currentTheme
+    wireProvenance: wireProvenance
   };
 
   document.addEventListener("DOMContentLoaded", function () {
-    setTheme(currentTheme());
     wireProvenance(document);
   });
 })();

@@ -383,7 +383,7 @@ p { text-wrap: pretty; }
 .btn:hover { opacity: 0.88; }
 .btn:active { transform: translateY(1px); }
 .btn--accent { background: var(--accent); color: var(--paper-50); }
-:root[data-theme="dark"] .btn--accent { color: var(--ink-950); }
+.btn--accent { color: var(--ink-950); }  /* dark only: the accent is light */
 .btn--ghost {
   background: transparent; color: var(--ink);
   border-color: var(--rule-strong);

@@ -34,7 +34,7 @@
       header.innerHTML =
         '<div class="wrap masthead__inner">' +
           '<a class="wordmark" href="' + depth + 'index.html">' + glyph(30) +
-            '<span><span class="wordmark__text">Equity Research Engine</span>' +
+            '<span><span class="wordmark__text">Prediqra</span>' +
             '<span class="wordmark__sub">Provenance-first</span></span></a>' +
           '<span class="spacer"></span>' +
           '<nav class="nav" aria-label="Main">' +
@@ -43,7 +43,6 @@
               return '<a href="' + depth + n[0] + '"' + cur + '>' + n[1] + "</a>";
             }).join("") +
           "</nav>" +
-          '<button class="theme-toggle" data-theme-toggle aria-label="Switch theme"></button>' +
         "</div>";
     }
 
@@ -55,7 +54,7 @@
           '<div class="row-between">' +
             '<div class="wordmark">' + glyph(24) +
               '<span class="wordmark__text" style="font-size: var(--step-0)">' +
-              'Equity Research Engine</span></div>' +
+              'Prediqra</span></div>' +
             '<nav class="nav" aria-label="Footer">' +
               NAV.slice(1, 5).map(function (n) {
                 return '<a href="' + depth + n[0] + '">' + n[1] + "</a>";
@@ -71,7 +70,6 @@
         "</div>";
     }
 
-    if (window.Meridian) window.Meridian.setTheme(window.Meridian.currentTheme());
   }
 
   if (document.readyState === "loading") {

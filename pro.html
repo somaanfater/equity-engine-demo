@@ -3,12 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Generate a full AI report — Equity Research Engine</title>
+<title>Full AI reports | Prediqra</title>
 <meta name="description" content="What a full AI report costs to produce, and why it is not offered on demand in this demo.">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/meridian.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231f8577'/><path d='M8 20h16M8 12v4M16 9v7M24 12v4' stroke='%23fdfcfa' stroke-width='2.2' stroke-linecap='round'/></svg>">
-<script>try{var t=localStorage.getItem("meridian-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <style>
   .steps { counter-reset: step; }
   .step {
@@ -48,7 +47,7 @@
   <h1 style="margin-top: var(--s-2)">Generate a full AI report</h1>
   <p class="lede" style="margin-top: var(--s-3); max-width: var(--measure)">
     The free reports stop after the computation layer. A full report runs all sixteen AI
-    phases, the five-seat council, the red team, the bias checks and the verifier — and
+    phases, the five-seat council, the red team, the bias checks and the verifier, and
     that costs real money per ticker. Here is exactly what it costs and what you would get.
   </p>
 
@@ -58,13 +57,13 @@
       <div>
         <h3 style="font-size: var(--step-1)">Pick a ticker</h3>
         <p class="small muted" style="margin-top: var(--s-2)">
-          Any US filer with at least four years of filings — the forensic screens need
+          Any US filer with at least four years of filings, the forensic screens need
           four years of history to compute.
         </p>
         <div class="row" style="margin-top: var(--s-3)">
           <input class="ticker-input" id="pro-ticker" value="NVDA"
                  aria-label="Ticker" autocomplete="off" spellcheck="false">
-          <button class="btn btn--ghost btn--sm" id="pro-estimate">Estimate cost</button>
+          <button class="btn btn--accent" id="pro-generate">Get full AI report</button>
         </div>
       </div>
     </div>
@@ -92,25 +91,19 @@
           six failed attempts one phase needed before its output contract was fixed. A
           clean single pass costs less than that. The council, red team, bias checks and
           verifier <strong>were not run</strong> for that report, so their rows are
-          estimates derived from comparable phases, not measurements — marked as such
-          rather than quietly averaged in.
+          estimates derived from comparable phases, not measurements, marked as such
+          rather than averaged into the total without comment.
         </p>
       </div>
     </div>
 
-    <div class="step" data-state="blocked">
+    <div class="step" data-state="blocked" id="pro-step3">
       <span class="step__n">3</span>
       <div>
-        <h3 style="font-size: var(--step-1)">Run it — <span class="warn">Pro: coming soon</span></h3>
-        <p class="small muted" style="margin-top: var(--s-2)">
-          Not available in this demo, and deliberately so. There is <strong>no backend
-          here</strong> — this site is static files on a CDN, with no server, no database,
-          no account system and no form that collects your email or anything else. Running
-          a report on demand would need all four, plus a way to bill for it.
-        </p>
-        <div class="notice" style="margin-top: var(--s-4)">
-          What you can read instead: the <a href="report.html">full sample report</a> — one
-          complete Tesla analysis, every phase, rendered exactly as the engine produced it.
+        <h3 style="font-size: var(--step-1)">Your report</h3>
+        <div id="pro-result" style="margin-top: var(--s-3)">
+          <p class="small muted">Choose a ticker above and select
+            <strong>Get full AI report</strong>.</p>
         </div>
       </div>
     </div>
@@ -121,7 +114,7 @@
       <p class="eyebrow eyebrow-accent">Free, every weekday</p>
       <h3 style="font-size: var(--step-1)">Numbers-only report</h3>
       <p class="small muted">
-        The whole computation layer: standardised statements, ratios, forensic screens,
+        The whole computation layer: standardized statements, ratios, forensic screens,
         credit, risk, technicals, factor regressions, DCF, reverse DCF, comps and Monte
         Carlo. Every figure traceable. No AI narrative.
       </p>
@@ -132,7 +125,7 @@
       <h3 style="font-size: var(--step-1)">Full AI report</h3>
       <p class="small muted">
         Everything above, plus sixteen analysis phases, the five-seat council and chairman,
-        the red team, bias checks and the claim-by-claim verifier — with the council's
+        the red team, bias checks and the claim-by-claim verifier, with the council's
         disagreement shown rather than averaged.
       </p>
       <p class="num" style="font-size: var(--step-2)" id="pro-headline">~$27</p>
@@ -141,7 +134,7 @@
   </div>
 
   <div class="notice notice--caution" style="margin-top: var(--s-6)">
-    <strong>Demo — not offered for sale.</strong> No report produced by this engine is
+    <strong>Demo, not offered for sale.</strong> No report produced by this engine is
     offered for sale, and several of its data sources permit personal research only and not
     redistribution. Educational project, not investment advice.
   </div>
@@ -172,6 +165,54 @@
     ["Verifier", 9, 0.80, false]
   ];
 
+  var STEP3 = document.getElementById("pro-step3");
+  var RESULT = document.getElementById("pro-result");
+
+  /* Tesla is the one ticker with a finished AI report, so for Tesla the button does the
+     thing it says and opens it. For every other ticker the honest answer is the cost,
+     with a link to the free report that does exist. No queue, no progress bar, and no
+     pretence that a report is being generated. */
+  function present(ticker) {
+    if (ticker === "TSLA") {
+      STEP3.setAttribute("data-state", "done");
+      RESULT.innerHTML =
+        '<p class="small muted">The full AI report for Tesla is published. ' +
+        'All fifteen phases, with scores, a recommendation and the scenario set.</p>' +
+        '<div class="row" style="margin-top: var(--s-4)">' +
+        '<a class="btn btn--accent" href="report.html">Open the full AI report</a>' +
+        '<a class="btn btn--ghost" href="t/TSLA.html">Numbers-only report</a></div>';
+      return;
+    }
+    STEP3.setAttribute("data-state", "blocked");
+    var known = COVERED.indexOf(ticker) !== -1;
+    RESULT.innerHTML =
+      '<div class="notice notice--caution"><strong>Full AI reports for ' + ticker +
+      ' are disabled in this demo because each costs about $25 in API fees.</strong>' +
+      '</div>' +
+      (known
+        ? '<div class="row" style="margin-top: var(--s-4)">' +
+          '<a class="btn btn--accent" href="t/' + ticker + '.html">Open the free ' +
+          'numbers-only report for ' + ticker + '</a></div>'
+        : '<p class="small muted" style="margin-top: var(--s-3)">' + ticker +
+          ' is not in the covered set, so there is no free report for it either. ' +
+          '<a href="index.html">See the covered tickers</a>.</p>');
+  }
+
+  var COVERED = [];
+  fetch("data/index.json")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      COVERED = ((d && d.tickers) || []).map(function (t) { return t.symbol; });
+    })
+    .catch(function () { /* the message still works, minus the free-report link */ });
+
+  function go() {
+    var t = (document.getElementById("pro-ticker").value || "").trim().toUpperCase();
+    if (!t) return;
+    estimate();
+    present(t);
+  }
+
   function estimate() {
     var t = (document.getElementById("pro-ticker").value || "").trim().toUpperCase() || "—";
     var calls = 0, cost = 0;
@@ -189,11 +230,11 @@
     document.getElementById("pro-cost").innerHTML = rows.join("");
   }
 
-  document.getElementById("pro-estimate").addEventListener("click", estimate);
-  document.getElementById("pro-ticker").addEventListener("keydown", function (e) {
-    if (e.key === "Enter") { e.preventDefault(); estimate(); }
-  });
   estimate();
+  document.getElementById("pro-generate").addEventListener("click", go);
+  document.getElementById("pro-ticker").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); go(); }
+  });
 })();
 </script>
 </body>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>FMKT 256 — Equity Research Engine</title>
+<title>Prediqra | FMKT 256</title>
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/meridian.css">
 <style>
@@ -104,7 +104,7 @@
     </svg>
     <div>
       <div style="font-family:var(--font-display);font-size:13pt;line-height:1">
-        Equity Research Engine</div>
+        Prediqra</div>
       <div class="eyebrow" style="font-size:7.5pt">Provenance-first equity research</div>
     </div>
   </div>
@@ -116,9 +116,9 @@
     <div class="cover__rule"></div>
     <p style="font-size:12pt;font-family:var(--font-display);color:var(--ink-soft);
               max-width:5.4in">
-      A finance web app that imports a decade of filings and market data, computes the
-      whole analytical stack in Python, and uses frontier AI only to reason over numbers it
-      is never allowed to invent.
+      Prediqra is an AI equity research engine: a finance web app that imports a decade
+      of filings and market data, computes the whole analytical stack in Python, and uses
+      frontier AI only to reason over numbers it is never allowed to invent.
     </p>
 
     <div class="team" style="margin-top:0.3in">
@@ -133,12 +133,11 @@
       <dt>Live app</dt>
       <dd><a href="https://somaanfater.github.io/equity-engine-demo/"
              style="color:var(--accent)"><strong>somaanfater.github.io/equity-engine-demo</strong></a></dd>
-      <dt>Demo video</dt><dd>[ YouTube link to be added ]</dd>
-      <dt>Built with</dt><dd>Claude (Anthropic) — Claude Code and Claude Opus</dd>
+      <dt>Built with</dt><dd>Claude (Anthropic), Claude Code and Claude Opus</dd>
     </dl>
 
     <p class="tiny-note" style="margin-top:0.22in">
-      Demo — not offered for sale. Educational project, not investment advice.
+      Demo, not offered for sale. Educational project, not investment advice.
     </p>
   </div>
 </section>
@@ -147,14 +146,14 @@
 <section class="sheet">
   <h2>What it does</h2>
   <p>
-    The app answers one question about a public company — <em>what is it worth, and how
-    confident can you be?</em> — and shows its work for every number on the way.
+    The app answers one question about a public company, <em>what is it worth, and how
+    confident can you be?</em>, and shows its work for every number on the way.
   </p>
 
   <h3 style="margin-top:0.18in">Two ideas the rest of the category skips</h3>
   <div class="split" style="margin-top:0.08in">
     <div class="box">
-      <p class="eyebrow eyebrow-accent">01 — Provenance as interface</p>
+      <p class="eyebrow eyebrow-accent">01, Provenance as interface</p>
       <p style="margin-top:4px">
         Every sourced figure carries a thin rule beneath it. Hover or tab to it and a card
         names where it came from: the filing and Item section, or the named Python function
@@ -163,34 +162,36 @@
       </p>
     </div>
     <div class="box">
-      <p class="eyebrow eyebrow-accent">02 — Visible confidence</p>
+      <p class="eyebrow eyebrow-accent">02, Visible confidence</p>
       <p style="margin-top:4px">
         Fair value is a distribution, so it is drawn as one: a band for the simulated
         P10–P90, a tick for the point estimate, a hairline for the market price. The point
-        estimate's font weight is set by its own spread — a wide band prints lighter. False
+        estimate's font weight is set by its own spread, a wide band prints lighter. False
         precision is a typographic choice, so this is the typographic answer to it.
       </p>
     </div>
   </div>
 
   <h3 style="margin-top:0.2in">What a visitor can do, with no login and no sign-up</h3>
+  <p style="margin-bottom:0.08in">
+    The home page leads with a ticker search across all 18 covered companies. Choosing one
+    opens that company's free report immediately. A line underneath states that full AI
+    reports are available for Tesla only, and why: each costs about $25 in model fees.
+  </p>
   <ul>
-    <li><strong>Numbers-only reports</strong> for 18 large companies across sectors:
-      standardised statements, ratios, four forensic accounting screens, credit, risk,
-      technicals, factor regressions, DCF, reverse DCF, comps and a 10,000-path Monte
-      Carlo.</li>
-    <li><strong>Screener</strong> — four preset screens (forensic red flags, price implies
+    <li><strong>Full numbers-only reports</strong> for 18 large companies across sectors. Each is the engine's own report with the AI sections left empty: ten years of standardized statements, ratios, four forensic accounting screens, credit, risk, technicals, factor regressions, DCF, reverse DCF, comps and a 10,000-path Monte Carlo. Thirteen sections, a contents list, and between 14 and 40 charts depending on what the filings support.</li>
+    <li><strong>Screener</strong>, four preset screens (forensic red flags, price implies
       &gt;25% growth, cheap vs growth, momentum) run in the browser over every covered
       ticker.</li>
-    <li><strong>Build your own DCF</strong> — drive the whole free-cash-flow forecast
+    <li><strong>Build your own DCF</strong>, drive the whole free-cash-flow forecast
       yourself: growth and its fade, operating margin, sales-to-capital, tax, WACC and
       terminal growth, all seeded from the engine's own computed drivers. It recomputes ten
       explicit years plus a terminal value live, and warns when your assumptions violate
-      <code>growth = reinvestment × ROIC</code> — the identity that stops a DCF handing out
+      <code>growth = reinvestment × ROIC</code>, the identity that stops a DCF handing out
       growth nobody paid for.</li>
-    <li><strong>Rate simulator</strong> — move the risk-free rate and equity risk premium
+    <li><strong>Rate simulator</strong>, move the risk-free rate and equity risk premium
       and watch WACC and fair value move with them.</li>
-    <li><strong>One full AI report</strong> — the complete engine output for Tesla.</li>
+    <li><strong>One full AI report</strong>: the complete engine output for Tesla, all fifteen phases, with ten scores out of 100, a recommendation by horizon and five valued scenarios. Asking for any other company returns the reason it is not available rather than a queue: each full report costs about $25 in model fees.</li>
   </ul>
 
   <h3 style="margin-top:0.18in">The rules it will not break</h3>
@@ -217,19 +218,19 @@
   <div class="shots">
     <figure class="shot">
       <img src="shots/home.png" alt="Home page">
-      <figcaption>Home — the headline itself carries a live provenance mark and a live
-        confidence band, so a visitor learns the interaction before reading an
-        explanation.</figcaption>
+      <figcaption>Home. The first thing on the page is a ticker search that opens any of
+        the 18 free reports; below it, a single line explains that full AI reports are
+        Tesla-only and why.</figcaption>
     </figure>
     <div class="shots shots-2">
       <figure class="shot">
         <img src="shots/build-dcf.png" alt="Build your own DCF">
-        <figcaption>Build your own DCF — mechanical versus yours, with the
+        <figcaption>Build your own DCF, mechanical versus yours, with the
           growth = reinvestment × ROIC check live.</figcaption>
       </figure>
       <figure class="shot">
         <img src="shots/screener.png" alt="Screener">
-        <figcaption>Screener — four preset screens over all 18 covered
+        <figcaption>Screener, four preset screens over all 18 covered
           companies.</figcaption>
       </figure>
       <figure class="shot">
@@ -239,7 +240,7 @@
       </figure>
       <figure class="shot">
         <img src="shots/report.png" alt="Full AI report">
-        <figcaption>The flagship full AI report — 13 sections, 62 charts, the audit trail
+        <figcaption>The flagship full AI report, 13 sections, 62 charts, the audit trail
           and every data gap.</figcaption>
       </figure>
     </div>
@@ -263,21 +264,19 @@
     <div class="flow__row"><span class="flow__n">2</span>
       <span><strong>Import.</strong> SEC EDGAR filings and XBRL facts, prices, FRED macro
       series, Form 4 insider transactions, 13F holdings, FINRA short interest, Fama–French
-      factors, the implied equity risk premium, and peer financials — frozen into a hashed,
+      factors, the implied equity risk premium, and peer financials, frozen into a hashed,
       read-only snapshot per company.</span></div>
     <div class="flow__row"><span class="flow__n">3</span>
-      <span><strong>Append-only archive.</strong> Four sources serve only "now" — an
-      options chain, consensus estimates, the borrow fee, a quote — so each day's
+      <span><strong>Append-only archive.</strong> Four sources serve only "now", an
+      options chain, consensus estimates, the borrow fee, a quote, so each day's
       observation is written once, under its <em>market</em> date, and never rewritten.
-      That is the only honest route to a point-in-time history for data no free vendor
+      It is the only route to a point-in-time history for data no free vendor
       sells with a vintage.</span></div>
     <div class="flow__row"><span class="flow__n">4</span>
       <span><strong>Compute.</strong> The whole analytical stack, in Python, as pure
       functions with unit tests against hand-checked values.</span></div>
     <div class="flow__row"><span class="flow__n">5</span>
-      <span><strong>Publish.</strong> The job regenerates every page, commits to a public
-      GitHub repository and pushes. GitHub Pages redeploys automatically, so the live site
-      updates without anyone touching it.</span></div>
+      <span><strong>Publish.</strong> The job rebuilds all eighteen reports, commits to a public GitHub repository and pushes. GitHub Pages redeploys automatically, so the live site updates each weekday without anyone touching it.</span></div>
   </div>
 
   <h3 style="margin-top:0.2in">What runs live for everyone, and what runs locally</h3>
@@ -285,8 +284,8 @@
     <div class="box box--accent">
       <p class="eyebrow eyebrow-accent">Live for anyone, free</p>
       <p style="margin-top:4px"><strong>The data import and every calculation.</strong>
-        All the numbers on the site — statements, ratios, forensic screens, credit, risk,
-        technicals, factor regressions, DCF, reverse DCF, comps, Monte Carlo — plus the
+        All the numbers on the site, statements, ratios, forensic screens, credit, risk,
+        technicals, factor regressions, DCF, reverse DCF, comps, Monte Carlo, plus the
         screener, the rate simulator and the Build-your-own-DCF page, which recompute in
         your browser as you move the sliders. No login, no email, no account.</p>
     </div>
@@ -294,10 +293,9 @@
       <p class="eyebrow" style="color:var(--caution)">Runs locally</p>
       <p style="margin-top:4px"><strong>The full AI analysis, because of API cost.</strong>
         The sixteen analysis phases, the five-seat council, the red team, the bias checks
-        and the verifier are frontier-model calls which cost <strong>$27 for the published Tesla report</strong>, retries included. Running one per company per day is not something a class project
+        and the verifier are frontier-model calls which cost <strong>about $25 to $27 per report</strong>, measured on the published Tesla report with retries included. Running one per company per day is not something a class project
         can fund, so the AI stage runs on a local machine on request. The published
-        <strong>sample report</strong> and the <strong>demo video</strong> show exactly what
-        it produces.</p>
+        published <strong>sample report</strong> shows exactly what it produces.</p>
     </div>
   </div>
   <p class="tiny-note" style="margin-top:0.1in">
@@ -324,39 +322,39 @@
   </p>
   <p>
     It also found its own bugs by running the thing. Four examples, all of which only
-    appeared on a company the engine had never analysed before: duplicate SEC accession
+    appeared on a company the engine had never analyzed before: duplicate SEC accession
     numbers where EDGAR rebalances its filing index; Form 4 rows with no share count;
     a single transient HTTP 503 on one filing document aborting an entire eight-minute
-    import; and a date bug where an evening run labelled its data with the <em>next</em>
-    day's date, because the clock was UTC rather than New York — which would have made a
+    import; and a date bug where an evening run labeled its data with the <em>next</em>
+    day's date, because the clock was UTC rather than New York, which would have made a
     point-in-time archive look a session older than it was.
   </p>
 
   <h3 style="margin-top:0.16in">Claude as the analyst</h3>
   <p>
-    Sixteen phases read the computed figures and reason about them — business and moat,
+    Sixteen phases read the computed figures and reason about them, business and moat,
     forensic accounting, management track record, industry structure, governance, legal,
-    valuation judgement, scenarios, trade construction. They request new calculations
+    valuation judgment, scenarios, trade construction. They request new calculations
     through tool calls rather than performing them.
   </p>
   <p>
     The most instructive result was a <strong>refusal</strong>. One phase tried six times
     to record a catalyst dated "Q3 2026" and the contract rejected it each time, because
     the field required an exact day. The contract was right not to accept a date the model
-    could not justify — and the design was wrong to force the choice. It now separates
+    could not justify, and the design was wrong to force the choice. It now separates
     <em>where a date came from</em> (confirmed or inferred) from <em>how precisely it is
     known</em> (day, month, quarter, window, none), so a quarter is a complete answer
     instead of a failure to be exact. The fix was a design change, not a louder
     instruction.
   </p>
   <div class="box" style="margin-top:0.14in">
-    <p class="eyebrow">Honest note on the sample report</p>
+    <p class="eyebrow">Note on the sample report</p>
     <p style="margin-top:4px;font-size:9.5pt">
       All fifteen phases completed, but it took six paid runs to get there and the reason
       is worth stating. One phase failed its output contract nine times: it kept dating a
       catalyst "Q3 2026" while the contract demanded an exact day. The contract was right
       to refuse a date the model could not justify, and the design was wrong to force the
-      choice — it now separates <em>where a date came from</em> (confirmed or inferred)
+      choice, it now separates <em>where a date came from</em> (confirmed or inferred)
       from <em>how precisely it is known</em> (day, month, quarter, window, none). The root
       cause was smaller and worse: the rules existed but were wired to no phase, so the
       model had never been shown them.
@@ -385,7 +383,7 @@
     </p>
     <p style="margin-top:6px">
       Past performance does not indicate future results. The prediction log on which any
-      future calibration would be based is deliberately forward-only: it scores a forecast
+      future calibration would be based is forward-only by design: it scores a forecast
       only after its horizon has fully elapsed, so there are no calibration statistics yet
       and the app says so rather than publishing an unearned number.
     </p>
@@ -397,9 +395,8 @@
     <dd><a href="https://somaanfater.github.io/equity-engine-demo/"
            style="color:var(--accent)">somaanfater.github.io/equity-engine-demo</a></dd>
     <dt>Source (demo site)</dt>
-    <dd>github.com/somaanfater/equity-engine-demo — rendered output only; the engine
+    <dd>github.com/somaanfater/equity-engine-demo, rendered output only; the engine
       itself, its prompts and its configuration are not published.</dd>
-    <dt>Demo video</dt><dd>[ YouTube link to be added ]</dd>
   </div>
 
   <p class="tiny-note" style="margin-top:0.3in">

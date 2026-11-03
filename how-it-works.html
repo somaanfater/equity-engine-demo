@@ -3,12 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>How it works — Equity Research Engine</title>
+<title>How it works | Prediqra</title>
 <meta name="description" content="Snapshot, compute, sixteen AI phases, a five-seat council, red team, bias checks, verifier, report — and the rules each stage enforces.">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/meridian.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231f8577'/><path d='M8 20h16M8 12v4M16 9v7M24 12v4' stroke='%23fdfcfa' stroke-width='2.2' stroke-linecap='round'/></svg>">
-<script>try{var t=localStorage.getItem("meridian-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <style>
   /* The pipeline. Drawn with CSS rather than an image so it is legible at any
      width, readable by a screen reader, and recolours with the theme. */
@@ -58,16 +57,16 @@
   <p class="eyebrow eyebrow-accent">Architecture</p>
   <h1 style="margin-top: var(--s-2)">How it works</h1>
   <p class="lede" style="margin-top: var(--s-3); max-width: var(--measure)">
-    One rule shapes everything else: <strong>the language model never does
-    arithmetic</strong>. Every number comes from Python or from a cited source. The phases
-    reason over computed figures and request new calculations through tool calls — they are
+    Prediqra is an AI equity research engine, and one rule shapes everything else:
+    <strong>the language model never does arithmetic</strong>. Every number comes from Python or from a cited source. The phases
+    reason over computed figures and request new calculations through tool calls; they are
     never asked to produce a figure, because a model that can produce one can invent one.
   </p>
 
   <div class="legend" style="margin-top: var(--s-5)">
-    <span><i style="background: var(--accent)"></i> Deterministic — Python, no model</span>
-    <span><i style="background: var(--ochre-400)"></i> AI — a model reasoning over computed numbers</span>
-    <span><i style="background: var(--slate-400)"></i> Check — can only remove or flag, never add</span>
+    <span><i style="background: var(--accent)"></i> Deterministic, Python, no model</span>
+    <span><i style="background: var(--ochre-400)"></i> AI, a model reasoning over computed numbers</span>
+    <span><i style="background: var(--slate-400)"></i> Check, can only remove or flag, never add</span>
   </div>
 
   <div class="pipe">
@@ -82,7 +81,7 @@
           FINRA short interest, Fama–French factors, the implied equity risk premium, peer
           financials. Each loader takes an as-of date and must not return anything
           published after it. Every run and every council seat reads the same frozen
-          snapshot — nothing fetches live data once it is sealed.
+          snapshot. Nothing fetches live data once it is sealed.
         </p>
         <div class="stage__meta">
           <span class="chip">point-in-time</span>
@@ -97,14 +96,14 @@
       <div>
         <h3>Compute</h3>
         <p>
-          Ten years of annual and forty quarters of standardised statements, then every
+          Ten years of annual and forty quarters of standardized statements, then every
           metric: margins, DuPont, working-capital days, ROIC, FCF variants, accrual ratio.
-          Forensics — Beneish M, Altman Z, Piotroski F, Sloan, Montier C. Credit, including
+          Forensics, Beneish M, Altman Z, Piotroski F, Sloan, Montier C. Credit, including
           Merton distance-to-default and a maturity ladder. Risk: beta raw and Blume,
           Jensen's alpha, Sharpe, Sortino, VaR and CVaR, drawdown and recovery, historical
           stress replays. Technicals and Fama–French regressions. Then the full valuation
           stack: driver-based DCF, reverse DCF, comps, Monte Carlo, earnings power, LBO
-          ceiling, SOTP. Accounting identities are asserted — a balance sheet that does not
+          ceiling, SOTP. Accounting identities are asserted, a balance sheet that does not
           balance raises rather than rounds.
         </p>
         <div class="stage__meta">
@@ -121,9 +120,9 @@
         <p>
           Business and moat, forensic accounting, management track record, product
           pipeline, industry structure, macro exposure, operations, governance, sentiment
-          and positioning, technicals, legal and regulatory, valuation judgement, primary
+          and positioning, technicals, legal and regulatory, valuation judgment, primary
           research, scenarios, and trade construction. Each receives the computed metrics
-          as input and returns typed, validated output — the response contract has no field
+          as input and returns typed, validated output, the response contract has no field
           to put a free-floating number in, so the constraint is structural rather than an
           instruction the model is asked to follow.
         </p>
@@ -145,7 +144,7 @@
           averaged: the report shows the split, because four-of-five is a fact about a small
           panel and a percentage would launder it into something that sounds continuous.
           A seat that fails validation is retried with the error fed back, and if it still
-          fails it is logged as a high-impact gap and shown — never silently dropped.
+          fails it is logged as a high-impact gap and shown, never silently dropped.
         </p>
         <div class="stage__meta">
           <span class="chip">dispersion from the seats</span>
@@ -187,8 +186,8 @@
         <p>
           Every numeric claim in the draft is checked back against the computed figures,
           and every factual claim against its cited source. A claim that cannot be verified
-          is removed; one that is unverifiable but load-bearing is kept and labelled as
-          such. The verifier can only delete or flag — it can never add a number, so it
+          is removed; one that is unverifiable but load-bearing is kept and labeled as
+          such. The verifier can only delete or flag; it can never add a number, so it
           cannot become a second author.
         </p>
         <div class="stage__meta">
@@ -205,7 +204,7 @@
         <p>
           Rendered with every figure carrying its provenance, every estimate carrying its
           range, and a manifest recording the model version, the snapshot hash, the git
-          commit and the exact cost — so the same run can be rebuilt and audited later.
+          commit and the exact cost, so the same run can be rebuilt and audited later.
         </p>
         <div class="stage__meta">
           <span class="chip">reproducible manifest</span>
@@ -269,18 +268,7 @@
   </div>
 </section>
 
-<section class="section">
-  <hr class="mark">
-  <h2>Watch it run</h2>
-  <div class="card" style="margin-top: var(--s-5); display: grid; place-items: center;
-       min-height: 14rem; border-style: dashed;">
-    <div style="text-align: center" class="stack">
-      <p class="eyebrow">Video</p>
-      <p class="muted small">A screen recording of one full run, end to end.</p>
-      <p class="tiny faint">[ YouTube link to be added ]</p>
-    </div>
-  </div>
-</section>
+
 
 </main>
 <footer data-shell-footer></footer>

@@ -70,34 +70,37 @@
   --clay-500: #a8482f;
   --clay-600: #85341f;
 
-  /* ---- semantic: light (default) ---------------------------------------- */
-  --bg:            var(--paper-100);
-  --bg-raised:     var(--paper-50);
-  --bg-sunken:     var(--paper-200);
-  --bg-inset:      var(--paper-300);
+  /* ---- semantic: the only theme -------------------------------------
+     Dark only. No light palette exists, so there is no toggle, no stored
+     preference and nothing that can paint the wrong colours before a
+     script runs. */
+  --bg:          var(--ink-950);
+  --bg-raised:   var(--ink-900);
+  --bg-sunken:   var(--ink-850);
+  --bg-inset:    var(--ink-800);
 
-  --ink:           var(--ink-900);
-  --ink-soft:      var(--ink-700);
-  --ink-muted:     var(--slate-500);
-  --ink-faint:     var(--slate-400);
+  --ink:         var(--paper-100);
+  --ink-soft:    var(--paper-300);
+  --ink-muted:   var(--slate-400);
+  --ink-faint:   var(--slate-500);
 
-  --rule:          var(--paper-300);
-  --rule-strong:   var(--paper-400);
+  --rule:        var(--ink-800);
+  --rule-strong: var(--ink-700);
 
-  --accent:        var(--verdigris-500);
+  --accent:        var(--verdigris-300);
   --accent-soft:   var(--verdigris-400);
-  --accent-wash:   color-mix(in oklab, var(--verdigris-400) 12%, transparent);
-  --accent-ink:    var(--verdigris-700);
+  --accent-wash:   color-mix(in oklab, var(--verdigris-300) 14%, transparent);
+  --accent-ink:    var(--verdigris-200);
 
-  --caution:       var(--ochre-500);
-  --caution-wash:  color-mix(in oklab, var(--ochre-400) 16%, transparent);
-  --negative:      var(--clay-500);
-  --negative-wash: color-mix(in oklab, var(--clay-400) 14%, transparent);
-  --positive:      var(--verdigris-600);
+  --caution:       var(--ochre-300);
+  --caution-wash:  color-mix(in oklab, var(--ochre-300) 18%, transparent);
+  --negative:      var(--clay-300);
+  --negative-wash: color-mix(in oklab, var(--clay-300) 16%, transparent);
+  --positive:      var(--verdigris-300);
 
-  --shadow-sm: 0 1px 2px rgb(13 19 31 / 0.06), 0 1px 1px rgb(13 19 31 / 0.04);
-  --shadow-md: 0 4px 12px rgb(13 19 31 / 0.08), 0 1px 3px rgb(13 19 31 / 0.06);
-  --shadow-lg: 0 16px 40px rgb(13 19 31 / 0.14), 0 2px 8px rgb(13 19 31 / 0.08);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 14px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 18px 44px rgb(0 0 0 / 0.55);
 
   /* ---- type ------------------------------------------------------------- */
   /* System stacks on purpose: no network font, so nothing shifts on load and
@@ -150,75 +153,3 @@
   --med: 220ms;
 }
 
-/* ---- semantic: dark ---------------------------------------------------- */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg:          var(--ink-950);
-    --bg-raised:   var(--ink-900);
-    --bg-sunken:   var(--ink-850);
-    --bg-inset:    var(--ink-800);
-
-    --ink:         var(--paper-100);
-    --ink-soft:    var(--paper-300);
-    --ink-muted:   var(--slate-400);
-    --ink-faint:   var(--slate-500);
-
-    --rule:        var(--ink-800);
-    --rule-strong: var(--ink-700);
-
-    --accent:        var(--verdigris-300);
-    --accent-soft:   var(--verdigris-400);
-    --accent-wash:   color-mix(in oklab, var(--verdigris-300) 14%, transparent);
-    --accent-ink:    var(--verdigris-200);
-
-    --caution:       var(--ochre-300);
-    --caution-wash:  color-mix(in oklab, var(--ochre-300) 18%, transparent);
-    --negative:      var(--clay-300);
-    --negative-wash: color-mix(in oklab, var(--clay-300) 16%, transparent);
-    --positive:      var(--verdigris-300);
-
-    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-    --shadow-md: 0 4px 14px rgb(0 0 0 / 0.45);
-    --shadow-lg: 0 18px 44px rgb(0 0 0 / 0.55);
-  }
-}
-
-/* The toggle must win in both directions, so both are stamped explicitly
-   rather than relying on the media query alone. */
-:root[data-theme="dark"] {
-  --bg: var(--ink-950);          --bg-raised: var(--ink-900);
-  --bg-sunken: var(--ink-850);   --bg-inset: var(--ink-800);
-  --ink: var(--paper-100);       --ink-soft: var(--paper-300);
-  --ink-muted: var(--slate-400); --ink-faint: var(--slate-500);
-  --rule: var(--ink-800);        --rule-strong: var(--ink-700);
-  --accent: var(--verdigris-300); --accent-soft: var(--verdigris-400);
-  --accent-wash: color-mix(in oklab, var(--verdigris-300) 14%, transparent);
-  --accent-ink: var(--verdigris-200);
-  --caution: var(--ochre-300);
-  --caution-wash: color-mix(in oklab, var(--ochre-300) 18%, transparent);
-  --negative: var(--clay-300);
-  --negative-wash: color-mix(in oklab, var(--clay-300) 16%, transparent);
-  --positive: var(--verdigris-300);
-  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
-  --shadow-md: 0 4px 14px rgb(0 0 0 / 0.45);
-  --shadow-lg: 0 18px 44px rgb(0 0 0 / 0.55);
-}
-
-:root[data-theme="light"] {
-  --bg: var(--paper-100);        --bg-raised: var(--paper-50);
-  --bg-sunken: var(--paper-200);  --bg-inset: var(--paper-300);
-  --ink: var(--ink-900);          --ink-soft: var(--ink-700);
-  --ink-muted: var(--slate-500);  --ink-faint: var(--slate-400);
-  --rule: var(--paper-300);       --rule-strong: var(--paper-400);
-  --accent: var(--verdigris-500); --accent-soft: var(--verdigris-400);
-  --accent-wash: color-mix(in oklab, var(--verdigris-400) 12%, transparent);
-  --accent-ink: var(--verdigris-700);
-  --caution: var(--ochre-500);
-  --caution-wash: color-mix(in oklab, var(--ochre-400) 16%, transparent);
-  --negative: var(--clay-500);
-  --negative-wash: color-mix(in oklab, var(--clay-400) 14%, transparent);
-  --positive: var(--verdigris-600);
-  --shadow-sm: 0 1px 2px rgb(13 19 31 / 0.06), 0 1px 1px rgb(13 19 31 / 0.04);
-  --shadow-md: 0 4px 12px rgb(13 19 31 / 0.08), 0 1px 3px rgb(13 19 31 / 0.06);
-  --shadow-lg: 0 16px 40px rgb(13 19 31 / 0.14), 0 2px 8px rgb(13 19 31 / 0.08);
-}

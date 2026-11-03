@@ -3,12 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rate simulator — Equity Research Engine</title>
+<title>Rate simulator | Prediqra</title>
 <meta name="description" content="Move the risk-free rate and equity risk premium and watch WACC and DCF fair value recompute live.">
 <link rel="stylesheet" href="assets/css/tokens.css">
 <link rel="stylesheet" href="assets/css/meridian.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231f8577'/><path d='M8 20h16M8 12v4M16 9v7M24 12v4' stroke='%23fdfcfa' stroke-width='2.2' stroke-linecap='round'/></svg>">
-<script>try{var t=localStorage.getItem("meridian-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
 <style>
   .sim { display: grid; gap: var(--s-6);
          grid-template-columns: minmax(0, 20rem) minmax(0, 1fr); align-items: start; }
@@ -64,7 +63,7 @@
   <p class="lede" style="margin-top: var(--s-3); max-width: var(--measure)">
     A discounted cash flow is mostly an argument about the discount rate. Move the
     risk-free rate and the equity risk premium and watch WACC and fair value move with
-    them — recomputed in your browser from the same forecast the engine built.
+    them, recomputed in your browser from the same forecast the engine built.
   </p>
 
   <div class="sim" style="margin-top: var(--s-7)">
@@ -115,22 +114,22 @@
         <div class="readout" style="margin-top: var(--s-4)">
           <div class="tile">
             <span class="tile__label">WACC</span>
-            <span class="tile__value" id="out-wacc">—</span>
+            <span class="tile__value" id="out-wacc">n/a</span>
             <span class="tile__note delta" id="d-wacc"></span>
           </div>
           <div class="tile">
             <span class="tile__label">Fair value / share</span>
-            <span class="tile__value" id="out-fv">—</span>
+            <span class="tile__value" id="out-fv">n/a</span>
             <span class="tile__note delta" id="d-fv"></span>
           </div>
           <div class="tile">
             <span class="tile__label">Upside to price</span>
-            <span class="tile__value" id="out-up">—</span>
+            <span class="tile__value" id="out-up">n/a</span>
             <span class="tile__note" id="out-price"></span>
           </div>
           <div class="tile">
             <span class="tile__label">Terminal % of EV</span>
-            <span class="tile__value" id="out-tv">—</span>
+            <span class="tile__value" id="out-tv">n/a</span>
             <span class="tile__note">Above ~75% is mostly perpetuity</span>
           </div>
         </div>
@@ -142,7 +141,7 @@
             <div class="band__mark" data-label="Price"></div>
             <div class="band__tick"></div>
           </div>
-          <div class="band-scale"><span id="sim-lo">—</span><span id="sim-hi">—</span></div>
+          <div class="band-scale"><span id="sim-lo">n/a</span><span id="sim-hi">n/a</span></div>
         </div>
       </div>
 
@@ -158,7 +157,7 @@
         <strong>This is a sensitivity toy, not the engine's DCF.</strong> It re-discounts the
         engine's own free cash flow forecast at a rate you choose, with a Gordon terminal
         value. The real model rebuilds the three statements, re-solves reinvestment against
-        ROIC, and re-runs 10,000 correlated simulations — none of which happens here.
+        ROIC, and re-runs 10,000 correlated simulations, none of which happens here.
       </div>
     </div>
   </div>
@@ -239,11 +238,11 @@
     var tv = terminalShare(w, g);
 
     $("out-wacc").textContent = fmt.pct(w, 2);
-    $("out-fv").textContent = fv === null ? "—" : fmt.money(fv);
-    $("out-tv").textContent = tv === null ? "—" : fmt.pct(tv, 0);
+    $("out-fv").textContent = fv === null ? "n/a" : fmt.money(fv);
+    $("out-tv").textContent = tv === null ? "n/a" : fmt.pct(tv, 0);
     $("out-price").textContent = "price " + fmt.money(row.price);
     $("out-up").textContent = (fv === null || !row.price)
-      ? "—" : fmt.pct(fv / row.price - 1);
+      ? "n/a" : fmt.pct(fv / row.price - 1);
 
     $("d-wacc").textContent = base.wacc
       ? (w >= base.wacc ? "+" : "") + ((w - base.wacc) * 100).toFixed(2) + "pp vs snapshot"
@@ -275,7 +274,7 @@
         var v = fairValue(ww, gg);
         var here = (Math.abs(ww - w) < 1e-9 && Math.abs(gg - g) < 1e-9) ? '1' : '0';
         html += '<td class="num" data-here="' + here + '">' +
-          (v === null ? "—" : fmt.money(v, 0)) + "</td>";
+          (v === null ? "n/a" : fmt.money(v, 0)) + "</td>";
       });
       html += "</tr>";
     });
@@ -311,7 +310,7 @@
       load(ROWS[0].symbol);
     })
     .catch(function () {
-      document.getElementById("out-wacc").textContent = "—";
+      document.getElementById("out-wacc").textContent = "n/a";
       document.getElementById("sim-ticker").innerHTML =
         "<option>No valuations generated yet</option>";
     });
