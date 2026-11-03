@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AAPL — numbers-only report | Equity Research Engine</title>
+<meta name="description" content="Computed metrics for Apple Inc. (AAPL) as of 2026-11-03. Every figure traceable to a filing or a named computation.">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/meridian.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231f8577'/><path d='M8 20h16M8 12v4M16 9v7M24 12v4' stroke='%23fdfcfa' stroke-width='2.2' stroke-linecap='round'/></svg>">
+<script>try{var t=localStorage.getItem("meridian-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<header data-shell-header></header>
+<main class="wrap">
+
+<section class="section">
+  <p class="eyebrow eyebrow-accent">Numbers-only report · Hardware</p>
+  <h1 style="margin-top: var(--s-2)">Apple Inc.</h1>
+  <div class="row" style="margin-top: var(--s-3)">
+    <span class="chip"><span class="chip__dot"></span>AAPL</span>
+    <span class="chip">Snapshot 2026-11-03</span>
+    <span class="chip">Price $338.32</span>
+    <span class="chip chip--caution">No AI narrative</span>
+  </div>
+  <div class="notice" style="margin-top: var(--s-5)">
+    This is the <strong>computation layer only</strong> — the deterministic half of the
+    engine. No language model has seen this page: the sixteen AI analysis phases, the
+    five-seat council and the red team are not run for the free reports, because they cost
+    real money per ticker. <a href="../report.html">See the full AI report</a> for what the
+    complete pipeline produces.
+  </div>
+</section>
+
+<section class="section">
+  <hr class="mark">
+  <h2>Valuation</h2>
+  <div class="grid grid-2" style="margin-top: var(--s-5)">
+    <div class="card figure">
+      <p class="eyebrow">DCF fair value per share</p>
+      <span class="figure__value num" data-confidence="medium"><span class="prov" tabindex="0" role="button">$125.80<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Free cash flow to the firm, discounted at WACC with a mid-year convention. The band is the P10–P90 of a 10,000-path simulation over correlated driver distributions with Student-t shocks.</span><span class="prov__formula">EV = Σ FCFF_t / (1+WACC)^(t−0.5) + TV / (1+WACC)^(n−0.5)</span><span class="prov__cite">engine/valuation/dcf.py · monte_carlo.py</span></span></span></span>
+      <div class="band" style="--band-lo:6.90%;--band-hi:33.92%;--band-tick:18.76%"><div class="band__fill"></div><div class="band__mark" data-label="Price" style="--band-mark:93.10%"></div><div class="band__tick"></div></div><div class="band-scale"><span>$91.87</span><span>$169.13</span></div>
+      <p class="small muted" style="margin-top: var(--s-3)">
+        Upside to price: <strong class="num">-62.8%</strong>
+      </p>
+    </div>
+    <div class="grid grid-2" style="gap: var(--s-4); align-content: start">
+      <div class="tile"><span class="tile__label">WACC</span><span class="tile__value"><span class="prov" tabindex="0" role="button">9.6%<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Weighted average cost of capital, built from the risk-free rate, an implied equity risk premium and the company&#x27;s own capital structure.</span><span class="prov__formula">WACC = E/V · (r_f + β·ERP) + D/V · r_d · (1 − t)</span><span class="prov__cite">engine/valuation/dcf.py · Damodaran implied ERP</span></span></span></span></div>
+      <div class="tile"><span class="tile__label">Terminal % of EV</span><span class="tile__value"><span class="prov" tabindex="0" role="button">53.3%<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Share of enterprise value sitting in the terminal value. Above ~75% the valuation is mostly an assumption about perpetuity.</span><span class="prov__formula">PV(TV) / EV</span><span class="prov__cite">engine/valuation/dcf.py</span></span></span></span></div>
+      <div class="tile"><span class="tile__label">Market cap</span><span class="tile__value"><span class="prov" tabindex="0" role="button">$4.94T<span class="prov__card"><span class="prov__kind">Market</span><span class="prov__body">Shares outstanding from the latest filing, at the snapshot&#x27;s closing price.</span><span class="prov__cite">engine/analysis.py</span></span></span></span></div>
+      <div class="tile"><span class="tile__label">Enterprise value</span><span class="tile__value"><span class="prov" tabindex="0" role="button">$1.87T<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Market cap plus debt, minus cash, with the full bridge carried in the run.</span><span class="prov__formula">EV = market cap + total debt − cash &amp; equivalents</span><span class="prov__cite">engine/valuation/dcf.py bridge</span></span></span></span></div>
+    </div>
+  </div>
+  <p class="small muted">Basis: <strong>fiscal_year</strong> · 6 peers. Both are stated on every comps figure because a multiple from two trailing peers and one from seven fiscal-year peers are different claims.</p>
+</section>
+
+<section class="section">
+  <hr class="mark">
+  <h2>Forensics</h2>
+  <p class="small muted" style="margin-top: var(--s-2)">
+    Four published accounting-quality screens. Each carries its formula and its paper —
+    hover any score.
+  </p>
+  <div class="grid grid-4" style="margin-top: var(--s-5)"><div class="tile"><span class="tile__label">Beneish M</span><span class="tile__value"><span class="prov" tabindex="0" role="button">-2.29<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Eight-ratio earnings-manipulation score. Below −1.78 is the non-manipulator range.</span><span class="prov__formula">M = −4.84 + 0.92·DSRI + 0.528·GMI + 0.404·AQI + 0.892·SGI + 0.115·DEPI − 0.172·SGAI + 4.679·TATA − 0.327·LVGI</span><span class="prov__cite">Beneish (1999) · engine/compute/forensics.py</span></span></span></span></div><div class="tile"><span class="tile__label">Altman Z</span><span class="tile__value"><span class="prov" tabindex="0" role="button">12.65<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Bankruptcy-risk score. Above 2.99 is the safe zone; below 1.81 distress.</span><span class="prov__formula">Z = 1.2·A + 1.4·B + 3.3·C + 0.6·D + 1.0·E</span><span class="prov__cite">Altman (1968) · engine/compute/forensics.py</span></span></span></span></div><div class="tile"><span class="tile__label">Piotroski F</span><span class="tile__value"><span class="prov" tabindex="0" role="button">8<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Nine binary tests of profitability, leverage and efficiency. 8–9 is strong.</span><span class="prov__formula">F = Σ of nine signals (profitability 4, leverage/liquidity 3, efficiency 2)</span><span class="prov__cite">Piotroski (2000) · engine/compute/forensics.py</span></span></span></span></div><div class="tile"><span class="tile__label">Sloan accrual</span><span class="tile__value"><span class="prov" tabindex="0" role="button">-0.07<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Accrual share of earnings. High accruals predict lower future returns.</span><span class="prov__formula">Accruals = (net income − cash flow from operations) / average total assets</span><span class="prov__cite">Sloan (1996) · engine/compute/forensics.py</span></span></span></span></div></div>
+</section>
+
+
+<section class="section">
+  <hr class="mark">
+  <h2>Risk</h2>
+  <div class="grid grid-4" style="margin-top: var(--s-5)"><div class="tile"><span class="tile__label">Beta (Blume)</span><span class="tile__value"><span class="prov" tabindex="0" role="button">1.13<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Raw beta shrunk toward 1.0, which is the adjustment that forecasts better than raw beta out of sample.</span><span class="prov__formula">β_adj = 0.67 · β_raw + 0.33</span><span class="prov__cite">vs SPY · engine/compute/risk.py</span></span></span></span></div><div class="tile"><span class="tile__label">Annual volatility</span><span class="tile__value"><span class="prov" tabindex="0" role="button">29.1%<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Standard deviation of daily log returns, annualised by √252.</span><span class="prov__formula">σ_annual = σ_daily × √252</span><span class="prov__cite">engine/compute/risk.py</span></span></span></span></div><div class="tile"><span class="tile__label">Sharpe</span><span class="tile__value"><span class="prov" tabindex="0" role="button">0.87<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Excess return per unit of total volatility.</span><span class="prov__formula">Sharpe = (r_p − r_f) / σ_p</span><span class="prov__cite">engine/compute/risk.py</span></span></span></span></div><div class="tile"><span class="tile__label">Max drawdown</span><span class="tile__value"><span class="prov" tabindex="0" role="button">-38.5%<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Largest peak-to-trough fall in the price series held.</span><span class="prov__formula">max(1 − P_t / cummax(P))</span><span class="prov__cite">engine/compute/risk.py</span></span></span></span></div></div>
+</section>
+
+
+<section class="section">
+  <hr class="mark">
+  <h2>Technicals</h2>
+  <div class="grid grid-4" style="margin-top: var(--s-5)"><div class="tile"><span class="tile__label">RSI (14)</span><span class="tile__value"><span class="prov" tabindex="0" role="button">47.9<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Relative strength index over 14 sessions. Above 70 is conventionally overbought, below 30 oversold.</span><span class="prov__formula">RSI = 100 − 100 / (1 + average gain / average loss)</span><span class="prov__cite">engine/compute/technicals.py</span></span></span></span></div><div class="tile"><span class="tile__label">Momentum 12−1</span><span class="tile__value"><span class="prov" tabindex="0" role="button">23.4%<span class="prov__card"><span class="prov__kind">Computation</span><span class="prov__body">Twelve-month return excluding the most recent month, which is the convention that avoids short-term reversal.</span><span class="prov__formula">r(t−12 → t−1)</span><span class="prov__cite">engine/compute/technicals.py</span></span></span></span></div></div>
+</section>
+
+<section class="section">
+  <hr class="mark">
+  <h2>What this snapshot could not get</h2>
+  <p class="small muted" style="margin-top: var(--s-2)">
+    0 high-impact, 6 medium, 25 low.
+    Gaps are recorded, never filled with a plausible value.
+  </p>
+  <ul class="small muted" style="margin-top: var(--s-4); padding-left: 1.2rem"><li>No high-impact gaps recorded.</li></ul>
+</section>
+
+</main>
+<footer data-shell-footer></footer>
+<script src="../assets/js/meridian.js"></script>
+<script src="../assets/js/shell.js"></script>
+</body>
+</html>

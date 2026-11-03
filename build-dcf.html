@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Build your own DCF — Equity Research Engine</title>
+<meta name="description" content="Drive the full FCFF discounted cash flow yourself: growth, fade, margin, sales-to-capital, tax, WACC and terminal growth, recomputed live against the engine's mechanical valuation.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/meridian.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231f8577'/><path d='M8 20h16M8 12v4M16 9v7M24 12v4' stroke='%23fdfcfa' stroke-width='2.2' stroke-linecap='round'/></svg>">
+<script>try{var t=localStorage.getItem("meridian-theme");if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+<style>
+  .dcf { display: grid; gap: var(--s-6);
+         grid-template-columns: minmax(0, 22rem) minmax(0, 1fr); align-items: start; }
+  @media (max-width: 64rem) { .dcf { grid-template-columns: 1fr; } }
+
+  .slider__head { display: flex; justify-content: space-between; align-items: baseline;
+                  margin-bottom: var(--s-2); gap: var(--s-3); }
+  .slider__val { font-family: var(--font-num); font-variant-numeric: tabular-nums;
+                 font-size: var(--step-0); }
+  .slider__seed { font-family: var(--font-num); font-size: var(--step--2);
+                  color: var(--ink-faint); }
+  input[type="range"] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 4px;
+    border-radius: var(--radius-full); background: var(--bg-inset); cursor: pointer;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 15px; height: 15px; border-radius: 50%;
+    background: var(--accent); border: 2px solid var(--bg-raised);
+    box-shadow: var(--shadow-sm);
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 15px; height: 15px; border-radius: 50%; border: 2px solid var(--bg-raised);
+    background: var(--accent); box-shadow: var(--shadow-sm);
+  }
+
+  /* Mechanical vs yours, side by side. The comparison is the whole point of the page:
+     a number you built means little without the engine's beside it. */
+  .versus { display: grid; grid-template-columns: 1fr auto 1fr; gap: var(--s-4);
+            align-items: stretch; }
+  @media (max-width: 36rem) { .versus { grid-template-columns: 1fr; } }
+  .versus__vs { display: grid; place-items: center; color: var(--ink-faint);
+                font-family: var(--font-display); font-size: var(--step-1); }
+  .versus__col { padding: var(--s-4); border-radius: var(--radius);
+                 border: 1px solid var(--rule); background: var(--bg-raised); }
+  .versus__col[data-mine="1"] { border-color: color-mix(in oklab, var(--accent) 45%, transparent);
+                                background: var(--accent-wash); }
+  .versus__v { font-family: var(--font-num); font-variant-numeric: tabular-nums;
+               font-size: var(--step-3); line-height: 1; }
+
+  table.fc { width: 100%; border-collapse: collapse; font-size: var(--step--2); }
+  table.fc th, table.fc td { padding: var(--s-2); text-align: right;
+    border-bottom: 1px solid var(--rule); font-family: var(--font-num);
+    font-variant-numeric: tabular-nums; white-space: nowrap; }
+  table.fc th:first-child, table.fc td:first-child { text-align: left;
+    font-family: var(--font-ui); }
+  table.fc thead th { color: var(--ink-muted); font-family: var(--font-ui);
+    text-transform: uppercase; letter-spacing: var(--tracking-wide);
+    font-size: 0.625rem; }
+</style>
+</head>
+<body>
+<header data-shell-header></header>
+<main class="wrap">
+
+<section class="section">
+  <p class="eyebrow eyebrow-accent">Interactive</p>
+  <h1 style="margin-top: var(--s-2)">Build your own DCF</h1>
+  <p class="lede" style="margin-top: var(--s-3); max-width: var(--measure)">
+    Every slider starts at the value the engine's mechanical model computed from the
+    filings. Move them and the whole free-cash-flow forecast is rebuilt in your browser —
+    ten explicit years, a terminal value, and the reinvestment the growth you asked for
+    actually requires.
+  </p>
+
+  <div class="dcf" style="margin-top: var(--s-7)">
+    <div class="card stack" style="--flow: var(--s-5)">
+      <div>
+        <p class="eyebrow" style="margin-bottom: var(--s-2)">Company</p>
+        <select class="ticker-input" id="dcf-ticker" aria-label="Ticker"
+                style="width:100%; font-family: var(--font-num); padding: 0.5rem 0.7rem;
+                       background: var(--bg-raised); color: var(--ink);
+                       border: 1px solid var(--rule-strong); border-radius: var(--radius)">
+        </select>
+      </div>
+
+      <label class="slider">
+        <span class="slider__head"><span class="eyebrow">Revenue growth, years 1–5</span>
+          <span class="slider__val" id="g1-val">—</span></span>
+        <input type="range" id="g1" min="-10" max="60" step="0.5">
+        <span class="slider__seed" id="g1-seed"></span>
+      </label>
+
+      <label class="slider">
+        <span class="slider__head"><span class="eyebrow">Fade by year 10</span>
+          <span class="slider__val" id="fade-val">—</span></span>
+        <input type="range" id="fade" min="0" max="100" step="1">
+        <span class="slider__seed">How much of years 1–5 growth remains by year 10</span>
+      </label>
+
+      <label class="slider">
+        <span class="slider__head"><span class="eyebrow">Operating margin</span>
+          <span class="slider__val" id="m-val">—</span></span>
+        <input type="range" id="m" min="-5" max="45" step="0.25">
+        <span class="slider__seed" id="m-seed"></span>
+      </label>
+
+      <label class="slider">
+        <span class="slider__head"><span class="eyebrow">Sales to capital</span>
+          <span class="slider__val" id="s2c-val">—</span></span>
+        <input type="range" id="s2c" min="0.5" max="6" step="0.05">
+        <span class="slider__seed">Revenue added per $1 of reinvestment. Lower means
+          growth costs more.</span>
+      </label>
+
+      <label class="slider">
+        <span class="slider__head"><span class="eyebrow">Tax rate</span>
+          <span class="slider__val" id="tax-val">—</span></span>
+        <input type="range" id="tax" min="0" max="40" step="0.5">
+        <span class="slider__seed" id="tax-seed"></span>
+      </label>
+
+      <label class="slider">
+        <span class="slider__head"><span class="eyebrow">WACC</span>
+          <span class="slider__val" id="w-val">—</span></span>
+        <input type="range" id="w" min="3" max="20" step="0.1">
+        <span class="slider__seed" id="w-seed"></span>
+      </label>
+
+      <label class="slider">
+        <span class="slider__head"><span class="eyebrow">Terminal growth</span>
+          <span class="slider__val" id="tg-val">—</span></span>
+        <input type="range" id="tg" min="0" max="6" step="0.05">
+        <span class="slider__seed">Capped below WACC — a perpetuity growing faster than
+          its discount rate has infinite value.</span>
+      </label>
+
+      <button class="btn btn--ghost btn--sm" id="dcf-reset">
+        Reset to the engine's drivers</button>
+    </div>
+
+    <div class="stack" style="--flow: var(--s-5)">
+      <div class="card">
+        <p class="eyebrow">Mechanical vs yours</p>
+        <div class="versus" style="margin-top: var(--s-4)">
+          <div class="versus__col">
+            <p class="tile__label">Engine mechanical</p>
+            <p class="versus__v" id="v-mech">—</p>
+            <p class="tile__note" id="u-mech">—</p>
+          </div>
+          <div class="versus__vs">vs</div>
+          <div class="versus__col" data-mine="1">
+            <p class="tile__label">Your assumptions</p>
+            <p class="versus__v" id="v-mine">—</p>
+            <p class="tile__note" id="u-mine">—</p>
+          </div>
+        </div>
+
+        <div style="margin-top: var(--s-6)">
+          <p class="eyebrow" style="margin-bottom: var(--s-3)">Your value against the market</p>
+          <div class="band" id="dcf-band">
+            <div class="band__fill"></div>
+            <div class="band__mark" data-label="Price"></div>
+            <div class="band__tick"></div>
+          </div>
+          <div class="band-scale"><span id="b-lo">—</span><span id="b-hi">—</span></div>
+        </div>
+
+        <div class="grid grid-3" style="margin-top: var(--s-6); gap: var(--s-4)">
+          <div class="tile"><span class="tile__label">Terminal % of EV</span>
+            <span class="tile__value" id="o-tv">—</span>
+            <span class="tile__note">Above ~75% is mostly perpetuity</span></div>
+          <div class="tile"><span class="tile__label">Implied ROIC</span>
+            <span class="tile__value" id="o-roic">—</span>
+            <span class="tile__note">= margin × sales-to-capital × (1−tax)</span></div>
+          <div class="tile"><span class="tile__label">Reinvestment rate</span>
+            <span class="tile__value" id="o-rr">—</span>
+            <span class="tile__note">Share of NOPAT put back in</span></div>
+        </div>
+      </div>
+
+      <div id="consistency"></div>
+
+      <div class="card card--flush table-scroll">
+        <table class="fc" id="fc">
+          <caption class="eyebrow" style="padding: var(--s-4) var(--s-4) 0; text-align:left">
+            Your forecast
+          </caption>
+        </table>
+      </div>
+
+      <div class="notice notice--caution">
+        <strong>This is the real FCFF arithmetic, not a scaled approximation.</strong> It
+        discounts ten explicit years at your WACC with a mid-year convention, adds a Gordon
+        terminal value, subtracts net debt and divides by diluted shares — the same shape as
+        the engine's model. What it does <em>not</em> do is rebuild the three statements,
+        re-solve the balance sheet, or run 10,000 correlated simulations, all of which the
+        engine does and none of which fits in a browser.
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer data-shell-footer></footer>
+<script src="assets/js/meridian.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  "use strict";
+  var M = window.Meridian, fmt = M.fmt;
+  var ROWS = [], row = null, seed = {};
+  var $ = function (id) { return document.getElementById(id); };
+  var YEARS = 10;
+
+  /* The forecast. Growth fades geometrically from the years 1-5 rate toward the fade
+     target by year 10, which is the usual shape and keeps the slider count honest.
+     Reinvestment is DERIVED from growth and sales-to-capital rather than set directly:
+     that is the identity the consistency check below tests, and letting the user set both
+     independently would make the check meaningless. */
+  function forecast(p) {
+    var rows = [];
+    var revenue = p.baseRevenue;
+    for (var y = 1; y <= YEARS; y++) {
+      var g = y <= 5 ? p.g1 : p.g1 * Math.pow(p.fade, y - 5);
+      var prev = revenue;
+      revenue = revenue * (1 + g);
+      var ebit = revenue * p.margin;
+      var nopat = ebit * (1 - p.tax);
+      var reinvest = p.s2c > 0 ? (revenue - prev) / p.s2c : 0;
+      rows.push({
+        year: y, growth: g, revenue: revenue, ebit: ebit, nopat: nopat,
+        reinvest: reinvest, fcff: nopat - reinvest
+      });
+    }
+    return rows;
+  }
+
+  function value(p) {
+    var rows = forecast(p);
+    var pv = 0;
+    for (var i = 0; i < rows.length; i++) {
+      pv += rows[i].fcff / Math.pow(1 + p.wacc, i + 0.5);
+    }
+    var last = rows[rows.length - 1];
+    if (p.wacc <= p.tg) return { rows: rows, perShare: null, pv: pv, pvTv: null };
+    /* Terminal reinvestment must support terminal growth at the terminal ROIC, or the
+       perpetuity is free growth. */
+    var roic = p.margin * p.s2c * (1 - p.tax);
+    var termReinvest = roic > 0 ? p.tg / roic : 0;
+    var tvFcff = last.nopat * (1 + p.tg) * (1 - termReinvest);
+    var tv = tvFcff / (p.wacc - p.tg);
+    var pvTv = tv / Math.pow(1 + p.wacc, YEARS - 0.5);
+    var ev = pv + pvTv;
+    var equity = ev - p.netDebt;
+    return {
+      rows: rows, pv: pv, pvTv: pvTv, ev: ev,
+      perShare: p.shares ? equity / p.shares : null,
+      terminalShare: ev ? pvTv / ev : null,
+      roic: roic, reinvestRate: last.nopat ? last.reinvest / last.nopat : null
+    };
+  }
+
+  function params() {
+    var wacc = parseFloat($("w").value) / 100;
+    var tg = Math.min(parseFloat($("tg").value) / 100, wacc - 0.001);
+    return {
+      g1: parseFloat($("g1").value) / 100,
+      fade: Math.pow(parseFloat($("fade").value) / 100 || 0.0001, 1 / 5),
+      margin: parseFloat($("m").value) / 100,
+      s2c: parseFloat($("s2c").value),
+      tax: parseFloat($("tax").value) / 100,
+      wacc: wacc, tg: tg,
+      baseRevenue: row.base_revenue, shares: row.shares,
+      netDebt: row.net_debt || 0
+    };
+  }
+
+  function render() {
+    if (!row) return;
+    var p = params();
+    $("g1-val").textContent = fmt.pct(p.g1);
+    $("fade-val").textContent = $("fade").value + "%";
+    $("m-val").textContent = fmt.pct(p.margin);
+    $("s2c-val").textContent = p.s2c.toFixed(2) + "×";
+    $("tax-val").textContent = fmt.pct(p.tax);
+    $("w-val").textContent = fmt.pct(p.wacc, 2);
+    $("tg-val").textContent = fmt.pct(p.tg, 2);
+
+    var out = value(p);
+    var mine = out.perShare;
+    $("v-mine").textContent = mine === null ? "—" : fmt.money(mine);
+    $("u-mine").textContent = (mine === null || !row.price) ? "—"
+      : fmt.pct(mine / row.price - 1) + " vs price";
+    $("v-mech").textContent = fmt.money(row.fair_value);
+    $("u-mech").textContent = row.upside === null || row.upside === undefined
+      ? "—" : fmt.pct(row.upside) + " vs price";
+    $("o-tv").textContent = out.terminalShare === null || out.terminalShare === undefined
+      ? "—" : fmt.pct(out.terminalShare, 0);
+    $("o-roic").textContent = fmt.pct(out.roic, 1);
+    $("o-rr").textContent = out.reinvestRate === null ? "—" : fmt.pct(out.reinvestRate, 0);
+
+    if (mine !== null && row.price) {
+      var lo = Math.min(mine, row.price) * 0.7, hi = Math.max(mine, row.price) * 1.3;
+      M.placeBand($("dcf-band"), lo, mine, hi, row.price);
+      $("b-lo").textContent = fmt.money(lo, 0);
+      $("b-hi").textContent = fmt.money(hi, 0);
+    }
+
+    /* The consistency check the engine runs on its own drivers: growth must equal
+       reinvestment rate times ROIC. Violating it is how a DCF produces growth nobody
+       paid for. */
+    var implied = out.roic * (out.reinvestRate || 0);
+    var gap = Math.abs(implied - p.g1);
+    var box = $("consistency");
+    if (!isFinite(implied)) {
+      box.innerHTML = "";
+    } else if (gap > 0.02) {
+      /* At the seeded values this often fails, and that is a true statement about the
+         engine's mechanical drivers rather than a fault in the page: they extrapolate
+         history and revert toward the peer median, which is not a self-consistent steady
+         state. Saying so is more useful than a red box that looks like a bug. */
+      var seeded = Math.abs(p.g1 - seed.g1 / 100) < 1e-9;
+      box.innerHTML = '<div class="notice ' +
+        (seeded ? 'notice--caution' : 'notice--negative') + '">' +
+        '<strong>' + (seeded
+          ? 'The engine\u2019s own drivers do not satisfy this identity.'
+          : 'Consistency check failed.') + '</strong> ' +
+        'Growth of ' + fmt.pct(p.g1) + ' requires reinvestment \u00d7 ROIC to match it, ' +
+        'and these assumptions imply ' + fmt.pct(implied) + '. The identity is ' +
+        '<code>g = reinvestment rate \u00d7 ROIC</code> \u2014 growth has to be bought. ' +
+        (seeded
+          ? 'The mechanical drivers extrapolate five years of history and revert halfway ' +
+            'to the peer median; they are explicitly not a forecast, and nothing forces ' +
+            'them to be internally consistent. Move the sliders to find a set that is.'
+          : 'Raise sales-to-capital or the margin, or lower growth.') + '</div>';
+    } else {
+      box.innerHTML = '<div class="notice"><strong>Consistency check passes.</strong> ' +
+        'Growth of ' + fmt.pct(p.g1) + ' against an implied ' + fmt.pct(implied) +
+        ' from reinvestment × ROIC — within two points, so the growth is paid for.</div>';
+    }
+
+    var head = "<thead><tr><th>Year</th><th>Growth</th><th>Revenue</th><th>EBIT</th>" +
+      "<th>NOPAT</th><th>Reinvest</th><th>FCFF</th><th>PV</th></tr></thead><tbody>";
+    var body = out.rows.map(function (r, i) {
+      return "<tr><td>" + r.year + "</td><td>" + fmt.pct(r.growth) + "</td><td>" +
+        fmt.big(r.revenue) + "</td><td>" + fmt.big(r.ebit) + "</td><td>" +
+        fmt.big(r.nopat) + "</td><td>" + fmt.big(r.reinvest) + "</td><td>" +
+        fmt.big(r.fcff) + "</td><td>" +
+        fmt.big(r.fcff / Math.pow(1 + p.wacc, i + 0.5)) + "</td></tr>";
+    }).join("");
+    $("fc").innerHTML = head + body + "</tbody>";
+  }
+
+  function load(symbol) {
+    row = ROWS.filter(function (r) { return r.symbol === symbol; })[0];
+    if (!row) return;
+    seed = {
+      g1: (row.seed_growth !== undefined && row.seed_growth !== null ? row.seed_growth : 0.08) * 100,
+      fade: 35,
+      m: (row.seed_margin !== undefined && row.seed_margin !== null ? row.seed_margin : 0.12) * 100,
+      s2c: row.seed_sales_to_capital || 2.0,
+      tax: (row.tax_rate !== undefined && row.tax_rate !== null ? row.tax_rate : 0.21) * 100,
+      w: (row.wacc || 0.09) * 100,
+      tg: (row.terminal_growth !== undefined && row.terminal_growth !== null ? row.terminal_growth : 0.025) * 100
+    };
+    ["g1", "fade", "m", "s2c", "tax", "w", "tg"].forEach(function (k) {
+      $(k).value = seed[k];
+    });
+    $("g1-seed").textContent = "Engine: " + fmt.pct(seed.g1 / 100);
+    $("m-seed").textContent = "Engine: " + fmt.pct(seed.m / 100);
+    $("tax-seed").textContent = "Engine: " + fmt.pct(seed.tax / 100);
+    $("w-seed").textContent = "Engine: " + fmt.pct(seed.w / 100, 2);
+    render();
+  }
+
+  ["g1", "fade", "m", "s2c", "tax", "w", "tg"].forEach(function (k) {
+    $(k).addEventListener("input", render);
+  });
+  $("dcf-reset").addEventListener("click", function () { load(row.symbol); });
+  $("dcf-ticker").addEventListener("change", function (e) { load(e.target.value); });
+
+  fetch("data/screener.json")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      ROWS = ((d && d.rows) || []).filter(function (r) {
+        return r.base_revenue && r.shares;  // a forecast needs a base to grow
+      });
+      if (!ROWS.length) throw new Error("no drivers");
+      $("dcf-ticker").innerHTML = ROWS.map(function (r) {
+        return '<option value="' + r.symbol + '">' + r.symbol + " — " + r.name + "</option>";
+      }).join("");
+      load(ROWS[0].symbol);
+    })
+    .catch(function () {
+      $("dcf-ticker").innerHTML = "<option>No drivers generated yet</option>";
+      $("consistency").innerHTML = '<div class="notice notice--caution">The driver data ' +
+        'has not been generated yet, so there is nothing to seed the sliders from.</div>';
+    });
+})();
+</script>
+</body>
+</html>

@@ -9,6 +9,7 @@
   var NAV = [
     ["index.html", "Home"],
     ["screener.html", "Screener"],
+    ["build-dcf.html", "Build a DCF"],
     ["simulator.html", "Rate simulator"],
     ["report.html", "Sample report"],
     ["how-it-works.html", "How it works"],
