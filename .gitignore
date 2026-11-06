@@ -1,0 +1,15 @@
+.DS_Store
+.vercel
+node_modules/
+
+# Generated output. These are published to the orphan `gh-pages` branch, which carries one
+# commit and is force-pushed by the daily job; `main` keeps only hand-written source.
+#
+# Committing them to `main` as well put ~34 MB of new blobs in history every weekday: the
+# inline chart SVGs differ byte-for-byte on every re-render even when the numbers are
+# identical. The site is 38 MB on disk and the repository had reached 55 MB in three days.
+# Nothing is lost - each page records the snapshot hash and git commit it came from.
+/t/
+/report.html
+/glance.html
+/data/
