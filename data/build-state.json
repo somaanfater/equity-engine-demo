@@ -1,0 +1,74 @@
+{
+  "AAPL": {
+    "renderer": "275ac03c87b93875",
+    "snapshot_hash": "ced1be72"
+  },
+  "AMZN": {
+    "renderer": "fd0f27065c5e740e",
+    "snapshot_hash": "707be355"
+  },
+  "CAT": {
+    "renderer": "fd0f27065c5e740e",
+    "snapshot_hash": "a4bc8312"
+  },
+  "COST": {
+    "renderer": "a30794ccff84020a",
+    "snapshot_hash": "71897a69"
+  },
+  "DIS": {
+    "renderer": "275ac03c87b93875",
+    "snapshot_hash": "f963302e"
+  },
+  "GOOGL": {
+    "renderer": "fd0f27065c5e740e",
+    "snapshot_hash": "fcba9349"
+  },
+  "JNJ": {
+    "renderer": "275ac03c87b93875",
+    "snapshot_hash": "2e49872b"
+  },
+  "JPM": {
+    "renderer": "fd0f27065c5e740e",
+    "snapshot_hash": "d09dabfb"
+  },
+  "KO": {
+    "renderer": "fd0f27065c5e740e",
+    "snapshot_hash": "abef0f71"
+  },
+  "LLY": {
+    "renderer": "fd0f27065c5e740e",
+    "snapshot_hash": "cadf4b3d"
+  },
+  "META": {
+    "renderer": "275ac03c87b93875",
+    "snapshot_hash": "1de07640"
+  },
+  "MSFT": {
+    "renderer": "fd0f27065c5e740e",
+    "snapshot_hash": "b8464633"
+  },
+  "NVDA": {
+    "renderer": "0db6a07abbd357e0",
+    "snapshot_hash": "fb1cc51f"
+  },
+  "TSLA": {
+    "renderer": "0db6a07abbd357e0",
+    "snapshot_hash": "51b0c246"
+  },
+  "UNH": {
+    "renderer": "fd0f27065c5e740e",
+    "snapshot_hash": "d5f928a6"
+  },
+  "V": {
+    "renderer": "275ac03c87b93875",
+    "snapshot_hash": "fdb7dc4c"
+  },
+  "WMT": {
+    "renderer": "275ac03c87b93875",
+    "snapshot_hash": "27c7ede6"
+  },
+  "XOM": {
+    "renderer": "066977926937dd7e",
+    "snapshot_hash": "63e61c49"
+  }
+}

@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Full AI reports | Prediqra</title>
+<meta name="description" content="What a full AI report costs to produce, and why it is not offered on demand in this demo.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/meridian.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231f8577'/><path d='M8 20h16M8 12v4M16 9v7M24 12v4' stroke='%23fdfcfa' stroke-width='2.2' stroke-linecap='round'/></svg>">
+<style>
+  .steps { counter-reset: step; }
+  .step {
+    display: grid; grid-template-columns: auto 1fr; gap: var(--s-4);
+    padding: var(--s-5) 0; border-bottom: 1px solid var(--rule);
+    align-items: start;
+  }
+  .step:last-child { border-bottom: none; }
+  .step__n {
+    font-family: var(--font-num); font-size: var(--step--1);
+    width: 2rem; height: 2rem; display: grid; place-items: center;
+    border-radius: 50%; border: 1px solid var(--rule-strong); color: var(--ink-muted);
+  }
+  .step[data-state="done"] .step__n {
+    background: var(--accent); border-color: var(--accent); color: var(--paper-50);
+  }
+  :root[data-theme="dark"] .step[data-state="done"] .step__n { color: var(--ink-950); }
+  .step[data-state="blocked"] .step__n {
+    border-style: dashed; color: var(--caution); border-color: var(--caution);
+  }
+  .cost-table td.n { font-variant-numeric: tabular-nums; }
+  .ticker-input {
+    font-family: var(--font-num); font-size: var(--step-0);
+    text-transform: uppercase; letter-spacing: var(--tracking-wide);
+    padding: 0.6rem 0.8rem; background: var(--bg-raised); color: var(--ink);
+    border: 1px solid var(--rule-strong); border-radius: var(--radius);
+    width: min(100%, 12rem);
+  }
+</style>
+</head>
+<body>
+<header data-shell-header></header>
+<main class="wrap">
+
+<section class="section">
+  <p class="eyebrow eyebrow-accent">Pro</p>
+  <h1 style="margin-top: var(--s-2)">Generate a full AI report</h1>
+  <p class="lede" style="margin-top: var(--s-3); max-width: var(--measure)">
+    The free reports stop after the computation layer. A full report runs all sixteen AI
+    phases, the five-seat council, the red team, the bias checks and the verifier, and
+    that costs real money per ticker. Here is exactly what it costs and what you would get.
+  </p>
+
+  <div class="card steps" style="margin-top: var(--s-7)">
+    <div class="step" data-state="done">
+      <span class="step__n">1</span>
+      <div>
+        <h3 style="font-size: var(--step-1)">Pick a ticker</h3>
+        <p class="small muted" style="margin-top: var(--s-2)">
+          Any US filer with at least four years of filings, the forensic screens need
+          four years of history to compute.
+        </p>
+        <div class="row" style="margin-top: var(--s-3)">
+          <input class="ticker-input" id="pro-ticker" value="NVDA"
+                 aria-label="Ticker" autocomplete="off" spellcheck="false">
+          <button class="btn btn--accent" id="pro-generate">Get full AI report</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="step" data-state="done">
+      <span class="step__n">2</span>
+      <div>
+        <h3 style="font-size: var(--step-1)">Review the estimate</h3>
+        <p class="small muted" style="margin-top: var(--s-2)">
+          The engine assembles every prompt and counts tokens before sending anything, so
+          the estimate comes from the real prompts rather than a rule of thumb. Nothing is
+          ever sent until the estimate is accepted.
+        </p>
+        <div class="card card--flush table-scroll" style="margin-top: var(--s-4)">
+          <table class="data cost-table">
+            <thead><tr>
+              <th>Stage</th><th class="n">Calls</th><th class="n">Est. cost</th>
+            </tr></thead>
+            <tbody id="pro-cost"></tbody>
+          </table>
+        </div>
+        <p class="tiny faint" style="margin-top: var(--s-3)">
+          <strong>Only the first row is measured.</strong> It is the real call log for
+          the published Tesla report: 231 calls and $27.05, including every retry and the
+          six failed attempts one phase needed before its output contract was fixed. A
+          clean single pass costs less than that. The council, red team, bias checks and
+          verifier <strong>were not run</strong> for that report, so their rows are
+          estimates derived from comparable phases, not measurements, marked as such
+          rather than averaged into the total without comment.
+        </p>
+      </div>
+    </div>
+
+    <div class="step" data-state="blocked" id="pro-step3">
+      <span class="step__n">3</span>
+      <div>
+        <h3 style="font-size: var(--step-1)">Your report</h3>
+        <div id="pro-result" style="margin-top: var(--s-3)">
+          <p class="small muted">Choose a ticker above and select
+            <strong>Get full AI report</strong>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-2" style="margin-top: var(--s-7)">
+    <div class="card stack" style="--flow: var(--s-3)">
+      <p class="eyebrow eyebrow-accent">Free, every weekday</p>
+      <h3 style="font-size: var(--step-1)">Numbers-only report</h3>
+      <p class="small muted">
+        The whole computation layer: standardized statements, ratios, forensic screens,
+        credit, risk, technicals, factor regressions, DCF, reverse DCF, comps and Monte
+        Carlo. Every figure traceable. No AI narrative.
+      </p>
+      <p class="num" style="font-size: var(--step-2)">$0.00</p>
+    </div>
+    <div class="card card--accent stack" style="--flow: var(--s-3)">
+      <p class="eyebrow eyebrow-accent">On request</p>
+      <h3 style="font-size: var(--step-1)">Full AI report</h3>
+      <p class="small muted">
+        Everything above, plus sixteen analysis phases, the five-seat council and chairman,
+        the red team, bias checks and the claim-by-claim verifier, with the council's
+        disagreement shown rather than averaged.
+      </p>
+      <p class="num" style="font-size: var(--step-2)" id="pro-headline">~$27</p>
+      <p class="tiny faint">Measured on the published Tesla report, retries included. Model costs alone.</p>
+    </div>
+  </div>
+
+  <div class="notice notice--caution" style="margin-top: var(--s-6)">
+    <strong>Demo, not offered for sale.</strong> No report produced by this engine is
+    offered for sale, and several of its data sources permit personal research only and not
+    redistribution. Educational project, not investment advice.
+  </div>
+</section>
+
+</main>
+<footer data-shell-footer></footer>
+<script src="assets/js/meridian.js"></script>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  "use strict";
+  var fmt = window.Meridian.fmt;
+
+  /* Two tiers, labelled, because only one of them is measured.
+     MEASURED: the fifteen analysis phases of the published TSLA report, aggregated from
+     this project's own call log - 231 calls, $27.05, including every retry and the six
+     failed attempts on one phase. A clean single pass is cheaper than that figure.
+     ESTIMATED: the council, red team, bias checks and verifier were NOT run for that
+     report, so there is nothing measured to quote. These come from the per-call costs of
+     comparable phases and are marked as estimates. Presenting them as measured, which an
+     earlier version of this page did, was wrong. */
+  var STAGES = [
+    ["15 analysis phases", 231, 27.05, true],
+    ["5 council seats + chairman", 24, 2.60, false],
+    ["Red team", 7, 0.70, false],
+    ["Bias checks", 7, 0.55, false],
+    ["Verifier", 9, 0.80, false]
+  ];
+
+  var STEP3 = document.getElementById("pro-step3");
+  var RESULT = document.getElementById("pro-result");
+
+  /* Tesla is the one ticker with a finished AI report, so for Tesla the button does the
+     thing it says and opens it. For every other ticker the honest answer is the cost,
+     with a link to the free report that does exist. No queue, no progress bar, and no
+     pretence that a report is being generated. */
+  function present(ticker) {
+    if (ticker === "TSLA") {
+      STEP3.setAttribute("data-state", "done");
+      RESULT.innerHTML =
+        '<p class="small muted">The full AI report for Tesla is published. ' +
+        'All fifteen phases, with scores, a recommendation and the scenario set.</p>' +
+        '<div class="row" style="margin-top: var(--s-4)">' +
+        '<a class="btn btn--accent" href="report.html">Open the full AI report</a>' +
+        '<a class="btn btn--ghost" href="t/TSLA.html">Numbers-only report</a></div>';
+      return;
+    }
+    STEP3.setAttribute("data-state", "blocked");
+    var known = COVERED.indexOf(ticker) !== -1;
+    RESULT.innerHTML =
+      '<div class="notice notice--caution"><strong>Full AI reports for ' + ticker +
+      ' are disabled in this demo because each costs about $25 in API fees.</strong>' +
+      '</div>' +
+      (known
+        ? '<div class="row" style="margin-top: var(--s-4)">' +
+          '<a class="btn btn--accent" href="t/' + ticker + '.html">Open the free ' +
+          'numbers-only report for ' + ticker + '</a></div>'
+        : '<p class="small muted" style="margin-top: var(--s-3)">' + ticker +
+          ' is not in the covered set, so there is no free report for it either. ' +
+          '<a href="index.html">See the covered tickers</a>.</p>');
+  }
+
+  var COVERED = [];
+  fetch("data/index.json")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      COVERED = ((d && d.tickers) || []).map(function (t) { return t.symbol; });
+    })
+    .catch(function () { /* the message still works, minus the free-report link */ });
+
+  function go() {
+    var t = (document.getElementById("pro-ticker").value || "").trim().toUpperCase();
+    if (!t) return;
+    estimate();
+    present(t);
+  }
+
+  function estimate() {
+    var t = (document.getElementById("pro-ticker").value || "").trim().toUpperCase() || "—";
+    var calls = 0, cost = 0;
+    var rows = STAGES.map(function (s) {
+      calls += s[1]; cost += s[2];
+      var tag = s[3]
+        ? '<span class="chip chip--accent">measured</span>'
+        : '<span class="chip chip--caution">estimate</span>';
+      return "<tr><td>" + s[0] + " " + tag + '</td><td class="n">' + s[1] +
+        '</td><td class="n">' + fmt.money(s[2]) + "</td></tr>";
+    });
+    rows.push('<tr><td><strong>Total for ' + t + "</strong></td>" +
+      '<td class="n"><strong>' + calls + "</strong></td>" +
+      '<td class="n"><strong>' + fmt.money(cost) + "</strong></td></tr>");
+    document.getElementById("pro-cost").innerHTML = rows.join("");
+  }
+
+  estimate();
+  document.getElementById("pro-generate").addEventListener("click", go);
+  document.getElementById("pro-ticker").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); go(); }
+  });
+})();
+</script>
+</body>
+</html>

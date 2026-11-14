@@ -1,0 +1,1000 @@
+{
+  "generated_at": "2026-11-08T21:27:05+00:00",
+  "as_of": "2026-11-08",
+  "tickers": [
+    {
+      "ticker": "AAPL",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "ced1be725eedbc16bd8cf9c79bcfb5422724027170e1e5f9a690fcdff972e57b",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return -0.52% against 1.40% daily volatility (0.4 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": true,
+          "detail": "Altman Z-score 12.78 against a below 1.81 threshold"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -2.29 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 8.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 29.06 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA 0.25 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.24 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "AMZN",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "707be3554c6cb72067a926f33e773f1980ff61b68895f58e8224a6cc4fb153dc",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return -0.35% against 1.98% daily volatility (0.2 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": false,
+          "detail": "Altman Z-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": false,
+          "detail": "Beneish M-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 5.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": false,
+          "detail": "Interest coverage could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA -0.37 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.01 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "CAT",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "a4bc8312d16b518db07edd631c127df0d01db065b7e185ce6307d15c34de6a32",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return +0.90% against 2.50% daily volatility (0.4 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": true,
+          "detail": "Altman Z-score 4.18 against a below 1.81 threshold"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -2.47 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 6.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": false,
+          "detail": "Interest coverage could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA 1.96 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.13 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "COST",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "71897a6953aabd4d190cb031d7685ae0b1c2252b72d65ac15a2db025e5cdf923",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return -1.13% against 1.29% daily volatility (0.9 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": true,
+          "detail": "Altman Z-score 9.59 against a below 1.81 threshold"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -2.66 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 6.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 80.59 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA -1.05 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.03 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "DIS",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "f963302e9704cae60d94b41e5ef2f1958c1c9c300c65e9beef3051e4adf8e1d3",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": false,
+          "detail": "only 0 usable closes on or before 2026-11-08; at least 22 are needed to estimate volatility"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": false,
+          "detail": "Altman Z-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": false,
+          "detail": "Beneish M-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 7.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 9.69 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA 1.59 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.11 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "GOOGL",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "fcba93490dbcd4132efc2787889499def6c5c56a4b2cb163cdd21177865fec88",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return +0.78% against 2.16% daily volatility (0.4 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": true,
+          "detail": "Altman Z-score 13.97 against a below 1.81 threshold"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -2.69 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 6.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 273.68 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA -0.52 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.18 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "JNJ",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "2e49872b721894be3190749bf993c8018f1fe7a730b337ecb6726d44beda37b4",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return +1.43% against 1.58% daily volatility (0.9 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": false,
+          "detail": "Altman Z-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -2.26 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 4.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": false,
+          "detail": "Interest coverage could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": false,
+          "detail": "Net debt to EBITDA could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.21 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "JPM",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "d09dabfbf96cec56b0b9ed0ff15c45ef315db6503f8d43106a6c83d58cee3a78",
+      "triggers": [
+        {
+          "kind": "thesis_killer",
+          "severity": "medium",
+          "headline": "Piotroski F-score 2.00 is below 3.00",
+          "detail": "In the weakest band on the nine-point fundamental checklist. Threshold from Piotroski (2000)",
+          "observed_on": "2026-11-08",
+          "source": "Piotroski (2000)",
+          "value": 2.0,
+          "threshold": 3.0
+        }
+      ],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return -0.84% against 1.27% daily volatility (0.7 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": false,
+          "detail": "Altman Z-score does not apply to this sector (banks). The threshold comes from Altman (1968), which does not describe this kind of company"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": false,
+          "detail": "Beneish M-score does not apply to this sector (banks). The threshold comes from Beneish (1999), which does not describe this kind of company"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 2.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": false,
+          "detail": "Interest coverage does not apply to this sector (banks). The threshold comes from Standard credit convention; below 1.5x is a covenant-stress level, which does not describe this kind of company"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": false,
+          "detail": "Net debt to EBITDA does not apply to this sector (banks). The threshold comes from Standard leverage convention for an investment-grade issuer, which does not describe this kind of company"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": false,
+          "detail": "Free cash flow margin does not apply to this sector (banks). The threshold comes from Definitional: a negative margin means the business consumed cash, which does not describe this kind of company"
+        }
+      ]
+    },
+    {
+      "ticker": "KO",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "abef0f7185c5c4b93b56362f690ddc8c334b152ddcfb963506d2048079a60af9",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return -0.06% against 1.12% daily volatility (0.1 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": false,
+          "detail": "Altman Z-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -2.32 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 6.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 8.32 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA -0.59 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.11 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "LLY",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "cadf4b3d60557a9373ce4ad2a77d5b14401446806adf3ed3f82679a74c44d660",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return -0.79% against 1.98% daily volatility (0.4 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": false,
+          "detail": "Altman Z-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -1.85 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 7.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": false,
+          "detail": "Interest coverage could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": false,
+          "detail": "Net debt to EBITDA could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.26 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "META",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "1de07640d862381881cff52d392bfebb8271f2e7c29213f02c3c54d9beb1810b",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return +0.84% against 2.83% daily volatility (0.3 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": true,
+          "detail": "Altman Z-score 8.32 against a below 1.81 threshold"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -3.04 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 5.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 76.40 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA -0.22 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.23 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "MSFT",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "b8464633bb70ecc6487b23ff2e8c0dab67ef4ab5980ade3bd8d72130134092d8",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return -0.99% against 1.70% daily volatility (0.6 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": true,
+          "detail": "Altman Z-score 9.26 against a below 1.81 threshold"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -2.64 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 6.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 37.29 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA -0.19 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.20 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "NVDA",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "162c5ab7abd8b9b47c291920a05dcda76907c676893a534a1c91095231f1ff73",
+      "triggers": [
+        {
+          "kind": "thesis_killer",
+          "severity": "high",
+          "headline": "Beneish M-score -1.15 is above -1.78",
+          "detail": "Above the earnings-manipulation flag. This is a screen, not a finding: it says the accruals pattern resembles manipulators, not that anything is wrong. Threshold from Beneish (1999)",
+          "observed_on": "2026-11-08",
+          "source": "Beneish (1999)",
+          "value": -1.1519953195653434,
+          "threshold": -1.78
+        }
+      ],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return +2.78% against 2.50% daily volatility (1.1 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": true,
+          "detail": "Altman Z-score 60.11 against a below 1.81 threshold"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -1.15 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 4.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 128.30 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA -0.02 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.45 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "TSLA",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "c13b85b7a63bf60eb8e6c5168494ef80b096d019cd7c1dd6fa99357ca97a4a48",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return +4.23% against 2.94% daily volatility (1.4 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": true,
+          "detail": "Altman Z-score 16.96 against a below 1.81 threshold"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -2.89 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 5.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 56.99 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA -3.83 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.07 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "UNH",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "d5f928a6d40c56c8d8aba2024b3cd038fef33f6b9ac75451d45611f525ae8473",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return -0.40% against 1.51% daily volatility (0.3 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": true,
+          "detail": "Altman Z-score 3.02 against a below 1.81 threshold"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -2.58 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 7.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 4.74 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA 2.16 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.04 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "V",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "fdb7dc4c00a588f38364ed1df68682f798d39f0e7b59391e060e519b14a7cbe9",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return +0.01% against 1.40% daily volatility (0.0 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": false,
+          "detail": "Altman Z-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": false,
+          "detail": "Beneish M-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 5.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 32.61 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA 0.32 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.54 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "WMT",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "27c7ede607a51c4437e6cd04f1b94651aec91eff6c8327366b2524cee0d27707",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return -1.72% against 1.91% daily volatility (0.9 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": true,
+          "detail": "0 open-market purchase line(s) in the 30 days to 2026-11-08"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": false,
+          "detail": "Altman Z-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": true,
+          "detail": "Beneish M-score -2.72 against a above -1.78 threshold"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": true,
+          "detail": "Piotroski F-score 7.00 against a below 3.00 threshold"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": true,
+          "detail": "Interest coverage 12.87 against a below 1.50 threshold"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": true,
+          "detail": "Net debt to EBITDA 0.62 against a above 4.00 threshold"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": true,
+          "detail": "Free cash flow margin 0.02 against a below 0.00 threshold"
+        }
+      ]
+    },
+    {
+      "ticker": "XOM",
+      "as_of": "2026-11-08",
+      "since": "2026-11-05",
+      "snapshot_hash": "a3ef27bc823a1362ae1b904fa9ad0c28dc76404a3c1616d2d15ded6a3d283564",
+      "triggers": [],
+      "checks": [
+        {
+          "name": "new_filing",
+          "ran": true,
+          "detail": "0 of ('10-K', '10-Q', '8-K') filed after 2026-11-05"
+        },
+        {
+          "name": "price_move",
+          "ran": true,
+          "detail": "last return +0.34% against 1.68% daily volatility (0.2 sigma) on 60 trailing days; fires above 2 sigma and 2%"
+        },
+        {
+          "name": "insider_buy",
+          "ran": false,
+          "detail": "the snapshot carries no usable Form 4 transactions"
+        },
+        {
+          "name": "thesis_killer:altman_z",
+          "ran": false,
+          "detail": "Altman Z-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:beneish_m",
+          "ran": false,
+          "detail": "Beneish M-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:piotroski_f",
+          "ran": false,
+          "detail": "Piotroski F-score could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:interest_coverage",
+          "ran": false,
+          "detail": "Interest coverage could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:net_debt_to_ebitda",
+          "ran": false,
+          "detail": "Net debt to EBITDA could not be computed from this snapshot"
+        },
+        {
+          "name": "thesis_killer:fcf_margin",
+          "ran": false,
+          "detail": "Free cash flow margin could not be computed from this snapshot"
+        }
+      ]
+    }
+  ]
+}

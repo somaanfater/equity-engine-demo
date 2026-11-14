@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Watch list | Prediqra</title>
+<meta name="description" content="Re-run triggers across every covered ticker: new filings, price moves beyond two standard deviations, open-market insider buying, and published distress thresholds.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/meridian.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231f8577'/><path d='M8 20h16M8 12v4M16 9v7M24 12v4' stroke='%23fdfcfa' stroke-width='2.2' stroke-linecap='round'/></svg>">
+<style>
+  .tick { border: 1px solid var(--rule-strong); border-radius: var(--radius);
+          background: var(--bg-raised); padding: var(--s-4); margin-top: var(--s-4); }
+  .tick__head { display: flex; align-items: baseline; gap: var(--s-3); flex-wrap: wrap; }
+  .tick__sym { font-family: var(--font-ui); font-size: var(--step-1); font-weight: 600; }
+  .trig { display: grid; grid-template-columns: auto 1fr; gap: var(--s-2) var(--s-3);
+          padding-top: var(--s-3); margin-top: var(--s-3);
+          border-top: 1px solid var(--rule); }
+  .trig__body strong { display: block; font-family: var(--font-ui);
+                       font-size: var(--step--1); }
+  .trig__body span { display: block; font-size: var(--step--2); color: var(--ink-muted);
+                     margin-top: 2px; }
+  /* A check that could not run is set apart from one that ran and found nothing. The two
+     are different statements and the page must not blur them. */
+  .notrun { margin-top: var(--s-3); padding-top: var(--s-3);
+            border-top: 1px dashed var(--rule); font-size: var(--step--2);
+            color: var(--ink-faint); }
+  .notrun li { margin-top: 2px; }
+</style>
+</head>
+<body>
+<header data-shell-header></header>
+<main class="wrap">
+
+<section class="section">
+  <p class="eyebrow eyebrow-accent">Monitoring</p>
+  <h1 style="margin-top: var(--s-2)">Watch list</h1>
+  <p class="lede" style="margin-top: var(--s-3); max-width: var(--measure)">
+    Reasons a saved report might be out of date, recomputed every weekday. Four checks run
+    against each ticker's frozen snapshot: a new 10-K, 10-Q or 8-K; a daily price move
+    beyond two standard deviations of its own trailing volatility; an open-market insider
+    purchase; and published distress thresholds being crossed.
+  </p>
+  <p style="margin-top: var(--s-3); max-width: var(--measure); color: var(--ink-muted)">
+    Every check is arithmetic. No language model is involved and nothing here is a
+    recommendation to buy or sell: a trigger says the analysis should be looked at again,
+    not what the answer will be.
+  </p>
+
+  <p id="watch-count" class="small muted" style="margin-top: var(--s-5)">Loading.</p>
+  <div id="watch-body"></div>
+
+  <p class="small muted" style="margin-top: var(--s-6)">
+    Checks that could not run are listed under each ticker. "Nothing fired" and "nobody
+    looked" are different, and a watch list that hides the second reads as an all-clear it
+    has not earned. A threshold is also skipped where its source model does not describe the
+    company: Altman (1968) and Beneish (1999) were both estimated on samples that excluded
+    financial firms, so neither is applied to a bank.
+  </p>
+</section>
+
+</main>
+<footer data-shell-footer></footer>
+<script src="assets/js/shell.js"></script>
+<script>
+(function () {
+  var SEVERITY = { high: "chip--negative", medium: "chip--caution", low: "chip" };
+
+  function esc(s) {
+    return String(s === null || s === undefined ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+
+  function trigger(t) {
+    return '<div class="trig">' +
+      '<span class="chip ' + (SEVERITY[t.severity] || "chip") + '">' +
+        esc(t.severity) + "</span>" +
+      '<span class="trig__body"><strong>' + esc(t.headline) + "</strong>" +
+        "<span>" + esc(t.detail) + "</span></span>" +
+      "</div>";
+  }
+
+  function card(row) {
+    var fired = (row.triggers || []).slice().sort(function (a, b) {
+      var rank = { high: 0, medium: 1, low: 2 };
+      return (rank[a.severity] || 3) - (rank[b.severity] || 3);
+    });
+    var blocked = (row.checks || []).filter(function (c) { return !c.ran; });
+
+    var head = '<div class="tick__head">' +
+      '<a class="tick__sym" href="t/' + esc(row.ticker) + '.html">' +
+        esc(row.ticker) + "</a>" +
+      '<span class="small muted">' +
+        (fired.length ? fired.length + " trigger" + (fired.length === 1 ? "" : "s")
+                      : "nothing fired") +
+        " since " + esc(row.since) + "</span></div>";
+
+    var body = fired.map(trigger).join("");
+    var notrun = blocked.length
+      ? '<div class="notrun"><strong>Could not run:</strong><ul>' +
+        blocked.map(function (c) {
+          return "<li>" + esc(c.name) + " — " + esc(c.detail) + "</li>";
+        }).join("") + "</ul></div>"
+      : "";
+
+    return '<div class="tick">' + head + body + notrun + "</div>";
+  }
+
+  fetch("data/watch.json")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      var rows = (d && d.tickers) || [];
+      if (!rows.length) {
+        document.getElementById("watch-count").textContent =
+          "The watch list has not been generated yet.";
+        return;
+      }
+      var total = rows.reduce(function (n, r) {
+        return n + ((r.triggers || []).length);
+      }, 0);
+      // Tickers with something to say come first; the quiet ones still appear, because a
+      // list that hides them cannot be checked for completeness.
+      rows.sort(function (a, b) {
+        return ((b.triggers || []).length) - ((a.triggers || []).length);
+      });
+      document.getElementById("watch-count").textContent =
+        total + " trigger" + (total === 1 ? "" : "s") + " across " + rows.length +
+        " covered ticker" + (rows.length === 1 ? "" : "s") +
+        " as of " + (d.as_of || "an unknown date") + ".";
+      document.getElementById("watch-body").innerHTML = rows.map(card).join("");
+    })
+    .catch(function () {
+      document.getElementById("watch-count").textContent =
+        "The watch list could not be loaded.";
+    });
+})();
+</script>
+</body>
+</html>
