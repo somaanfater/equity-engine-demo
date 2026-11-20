@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prediqra, an AI equity research engine</title>
+<meta name="description" content="Prediqra, an AI equity research engine where the model never does arithmetic. Every number is traceable to a filing section or a named computation, and every estimate carries its range.">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/meridian.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%231f8577'/><path d='M8 20h16M8 12v4M16 9v7M24 12v4' stroke='%23fdfcfa' stroke-width='2.2' stroke-linecap='round'/></svg>">
+<style>
+  /* --- page-specific: the hero ---------------------------------------
+     The hero's job is to demonstrate the product rather than describe it,
+     so the headline itself contains a live provenance mark and a live
+     confidence band. A visitor learns the interaction before they read a
+     word of explanation. */
+  .hero { padding-block: var(--s-9) var(--s-8); position: relative; overflow: hidden; }
+  .hero__grid {
+    display: grid; gap: var(--s-7);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    align-items: center;
+  }
+  @media (max-width: 62rem) { .hero__grid { grid-template-columns: 1fr; } }
+
+  .hero h1 { font-size: var(--step-5); letter-spacing: -0.03em; }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(180deg, transparent 62%, var(--accent-wash) 62%);
+    padding-inline: 0.1em;
+  }
+
+  /* The ruled backdrop: faint measuring lines, the same idea as the
+     provenance rule at page scale. Pointer-events none so it never
+     intercepts a hover. */
+  .hero::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(to right, var(--rule) 1px, transparent 1px);
+    background-size: 5.5rem 100%;
+    opacity: 0.5;
+    mask-image: linear-gradient(to bottom, black, transparent 72%);
+    -webkit-mask-image: linear-gradient(to bottom, black, transparent 72%);
+  }
+  .hero > * { position: relative; }
+
+  /* The demo panel — a real valuation card, with real interactions. */
+  .demo-card { box-shadow: var(--shadow-md); }
+  .demo-row { display: grid; grid-template-columns: 1fr auto; gap: var(--s-4);
+              align-items: baseline; }
+
+  .ticker-form { display: flex; gap: var(--s-2); flex-wrap: wrap; }
+  .ticker-input {
+    flex: 1 1 11rem; min-width: 0;
+    font-family: var(--font-num); font-size: var(--step-0);
+    text-transform: uppercase; letter-spacing: var(--tracking-wide);
+    padding: 0.6rem 0.8rem;
+    background: var(--bg-raised); color: var(--ink);
+    border: 1px solid var(--rule-strong); border-radius: var(--radius);
+  }
+  .ticker-input::placeholder { color: var(--ink-faint); letter-spacing: normal;
+    font-family: var(--font-ui); text-transform: none; }
+
+  .tickers { display: flex; flex-wrap: wrap; gap: var(--s-2); }
+  .tickers a {
+    font-family: var(--font-num); font-size: var(--step--1);
+    padding: 0.25rem 0.5rem; text-decoration: none;
+    border: 1px solid var(--rule); border-radius: var(--radius-sm);
+    color: var(--ink-soft); background: var(--bg-raised);
+    transition: all var(--fast) var(--ease);
+  }
+  .tickers a:hover { border-color: var(--accent); color: var(--accent-ink);
+    background: var(--accent-wash); }
+
+  .pillars { --flow: var(--s-3); }
+  .pillar { display: grid; grid-template-columns: auto 1fr; gap: var(--s-4);
+            align-items: start; }
+  .pillar__n {
+    font-family: var(--font-num); font-size: var(--step--1);
+    color: var(--accent); border: 1px solid color-mix(in oklab, var(--accent) 40%, transparent);
+    border-radius: 50%; width: 1.75rem; height: 1.75rem;
+    display: grid; place-items: center; flex: none;
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap masthead__inner">
+    <a class="wordmark" href="index.html">
+      <svg class="wordmark__glyph" width="30" height="30" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="6" fill="var(--accent)"/>
+        <path d="M8 21h16M8 12.5v4M16 9.5v7M24 12.5v4" stroke="var(--bg-raised)"
+              stroke-width="2.2" stroke-linecap="round"/>
+      </svg>
+      <span>
+        <span class="wordmark__text">Prediqra</span>
+        <span class="wordmark__sub">Provenance-first</span>
+      </span>
+    </a>
+    <span class="spacer"></span>
+    <nav class="nav" aria-label="Main">
+      <a href="index.html" aria-current="page">Home</a>
+      <a href="screener.html">Screener</a>
+      <a href="build-dcf.html">Build a DCF</a>
+      <a href="simulator.html">Rate simulator</a>
+      <a href="report.html">Sample report</a>
+      <a href="how-it-works.html">How it works</a>
+      <a href="pro.html">Pro</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap hero__grid">
+    <div class="stack" style="--flow: var(--s-5)">
+      <p class="eyebrow eyebrow-accent">The LLM never does arithmetic</p>
+      <h1>Equity research where every number <em>names its source</em>.</h1>
+      <p class="lede">
+        Prediqra is an AI equity research engine: sixteen analysis phases, a five-seat
+        review council and a red team, all reasoning over numbers computed in Python and
+        never generated by a model.
+        Hover any ruled number to see the filing section or the formula it came from.
+      </p>
+      <div class="row">
+        <a class="btn btn--accent" href="report.html">Read the sample report</a>
+        <a class="btn btn--ghost" href="how-it-works.html">How it works</a>
+      </div>
+      <p class="small muted">
+        Last refreshed <span class="num prov" tabindex="0" role="button">
+          <span data-last-updated>n/a</span>
+          <span class="prov__card">
+            <span class="prov__kind">Computation</span>
+            <span class="prov__body">The snapshot build date. A scheduled job on the
+            author's machine rebuilds every free numbers-only report each weekday after
+            the US close, commits the output and triggers a redeploy.</span>
+            <span class="prov__cite">engine/clock.py, market date, America/New_York</span>
+          </span>
+        </span>
+        · <span data-ticker-count>n/a</span> tickers · numbers-only reports are free
+      </p>
+    </div>
+
+    <!-- The demo panel: the two ideas, live, above the fold. -->
+    <div class="card demo-card stack" style="--flow: var(--s-5)">
+      <div class="row-between">
+        <div>
+          <p class="eyebrow">Tesla, Inc.</p>
+          <p class="small muted">TSLA · snapshot 2026-10-15</p>
+        </div>
+        <span class="chip chip--accent"><span class="chip__dot"></span>Full AI report</span>
+      </div>
+
+      <hr class="rule">
+
+      <!-- CONFIDENCE: a range drawn, with the point estimate weighted to match -->
+      <div class="figure">
+        <p class="eyebrow">DCF fair value per share</p>
+        <div class="demo-row">
+          <span class="figure__value num" data-confidence="low">$<span data-fv>n/a</span></span>
+          <span class="small muted">P10–P90 from 10,000 simulations</span>
+        </div>
+        <div class="band" id="hero-band">
+          <div class="band__fill"></div>
+          <div class="band__mark" data-label="Price"></div>
+          <div class="band__tick"></div>
+        </div>
+        <div class="band-scale"><span data-lo>n/a</span><span data-hi>n/a</span></div>
+        <p class="tiny faint">
+          The band is wide because the inputs are. A single number here would be the
+          lie, so the figure is set in the weight its own spread earns.
+        </p>
+      </div>
+
+      <hr class="rule">
+
+      <!-- PROVENANCE: two marks, one computed, one a gap -->
+      <div class="grid grid-2" style="gap: var(--s-4)">
+        <div class="tile">
+          <span class="tile__label">Beneish M-score</span>
+          <span class="tile__value">
+            <span class="prov" tabindex="0" role="button">−2.41
+              <span class="prov__card">
+                <span class="prov__kind">Computation</span>
+                <span class="prov__body">Eight-ratio earnings-manipulation score. Below
+                −1.78 is the non-manipulator range.</span>
+                <span class="prov__formula">M = −4.84 + 0.92·DSRI + 0.528·GMI + 0.404·AQI
++ 0.892·SGI + 0.115·DEPI − 0.172·SGAI
++ 4.679·TATA − 0.327·LVGI</span>
+                <span class="prov__cite">Beneish (1999) · engine/compute/forensics.py</span>
+              </span>
+            </span>
+          </span>
+          <span class="tile__note">Non-manipulator range</span>
+        </div>
+        <div class="tile">
+          <span class="tile__label">Borrow fee</span>
+          <span class="tile__value">
+            <span class="prov prov--gap" tabindex="0" role="button">n/a<span class="prov__card">
+                <span class="prov__kind">Data gap</span>
+                <span class="prov__body">No free source serves a historical borrow fee,
+                and this snapshot predates the daily archiver. The engine records the gap
+                rather than filling it with a plausible number.</span>
+                <span class="prov__cite">CLAUDE.md rule 2, no fabricated data</span>
+              </span>
+            </span>
+          </span>
+          <span class="tile__note">Recorded, not estimated</span>
+        </div>
+      </div>
+
+      <hr class="rule">
+
+      <div>
+        <p class="eyebrow">Council agreement</p>
+        <p class="small muted" style="margin-top: var(--s-2)">
+          The five-seat council and the red team are implemented and tested, but
+          <strong>were not run for this sample report</strong>, they cost real money per
+          ticker. So there is no seat split to show here, and showing one would be
+          inventing a review that did not happen.
+        </p>
+        <div class="seats" role="img" aria-label="Council not run: five empty seats"
+             style="margin-top: var(--s-3)">
+          <span class="seats__seat"></span><span class="seats__seat"></span>
+          <span class="seats__seat"></span><span class="seats__seat"></span>
+          <span class="seats__seat"></span>
+          <span class="seats__label">not run</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="get-report" style="padding-top: var(--s-6)">
+  <div class="wrap">
+    <hr class="mark">
+    <h2>Get a report on any covered stock</h2>
+    <p class="muted small" style="margin-top: var(--s-3); max-width: var(--measure)">
+      Free, for all 18 covered companies: financial statements, four forensic accounting
+      screens, valuation with a DCF, a reverse DCF, comps and a 10,000-path Monte Carlo,
+      plus risk, technicals and factor regressions. Around 30 charts per company. Updated
+      every weekday after the US close.
+    </p>
+
+    <form class="ticker-form" style="margin-top: var(--s-5)" data-ticker-form>
+      <input class="ticker-input" name="ticker" list="covered-tickers"
+             placeholder="Search a ticker, e.g. NVDA"
+             aria-label="Ticker symbol" autocomplete="off" spellcheck="false">
+      <datalist id="covered-tickers" data-ticker-options></datalist>
+      <button class="btn btn--accent" type="submit">Open free report</button>
+    </form>
+    <p class="tiny faint" style="margin-top: var(--s-2)" data-ticker-error role="status"></p>
+
+    <div class="tickers" style="margin-top: var(--s-4)" data-ticker-list></div>
+
+    <div class="notice" style="margin-top: var(--s-6)">
+      Full AI reports (analysis phases, scenarios, scores and a recommendation) are
+      currently available for Tesla only, because each one costs about $25 in API fees to
+      generate.
+      <div class="row" style="margin-top: var(--s-3)">
+        <a class="btn btn--ghost btn--sm" href="report.html">Open the Tesla full AI report</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="section">
+  <div class="wrap">
+    <hr class="mark">
+    <h2>Two ideas the rest of the category skips</h2>
+    <div class="grid grid-2" style="margin-top: var(--s-6)">
+
+      <div class="card stack pillars">
+        <p class="eyebrow eyebrow-accent">01, Provenance as interface</p>
+        <h3 style="font-size: var(--step-1)">A number you cannot trace is a number you
+          cannot use.</h3>
+        <p class="small muted">
+          Most finance products show you a figure and expect you to trust the vendor.
+          Here, every ruled number carries its origin: the filing and Item section it was
+          read from, or the named function and formula that produced it. Nothing in the
+          analysis layer can invent a figure, because the model is never asked to produce
+          one, it requests computations through tool calls and reasons over the results.
+        </p>
+        <p class="small">
+          <strong>Try it:</strong> hover
+          <span class="prov" tabindex="0" role="button">this illustrative number
+            <span class="prov__card">
+              <span class="prov__kind">Example</span>
+              <span class="prov__body">This one is a demonstration of the interaction, not
+              a figure from a filing, which is why it carries no value and no citation.
+              Every <em>real</em> provenance mark names the module that computed it or the
+              filing section it was read from.</span>
+              <span class="prov__cite">See any ticker report for live ones</span>
+            </span>
+          </span>
+          anywhere on the site.
+        </p>
+      </div>
+
+      <div class="card stack pillars">
+        <p class="eyebrow eyebrow-accent">02, Visible confidence</p>
+        <h3 style="font-size: var(--step-1)">A point estimate is a claim about precision
+          you probably cannot make.</h3>
+        <p class="small muted">
+          Fair value is a distribution rather than a single number, so it is drawn as one. Bands
+          show the simulated P10–P90; the tick is the point estimate and the hairline is the market price. Where the council disagrees, you see the split rather than an
+          averaged-away consensus. A wide band renders its figure in a lighter weight:
+          the typography carries the uncertainty instead of hiding it.
+        </p>
+        <div style="margin-top: var(--s-2)">
+          <div class="band" id="pillar-band">
+            <div class="band__fill"></div>
+            <div class="band__mark" data-label="Price"></div>
+            <div class="band__tick"></div>
+          </div>
+          <div class="band-scale"><span>bear</span><span>base</span><span>bull</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <hr class="mark">
+    <div class="row-between">
+      <h2>Explore</h2>
+    </div>
+    <div class="grid grid-3" style="margin-top: var(--s-6)">
+      <a class="card stack" href="screener.html" style="text-decoration:none; --flow: var(--s-3)">
+        <p class="eyebrow eyebrow-accent">Interactive</p>
+        <h3 style="font-size: var(--step-1)">Screener</h3>
+        <p class="small muted">Four preset screens, forensic red flags, price implies
+          &gt;25% growth, cheap vs growth, momentum, run over every covered ticker.</p>
+      </a>
+      <a class="card stack" href="simulator.html" style="text-decoration:none; --flow: var(--s-3)">
+        <p class="eyebrow eyebrow-accent">Interactive</p>
+        <h3 style="font-size: var(--step-1)">Rate simulator</h3>
+        <p class="small muted">Move the risk-free rate and equity risk premium and watch
+          WACC and DCF fair value recompute live, in your browser.</p>
+      </a>
+      <a class="card card--accent stack" href="build-dcf.html" style="text-decoration:none; --flow: var(--s-3)">
+        <p class="eyebrow eyebrow-accent">Interactive</p>
+        <h3 style="font-size: var(--step-1)">Build your own DCF</h3>
+        <p class="small muted">Drive the full free-cash-flow model yourself, growth, fade,
+          margin, sales-to-capital, tax, WACC and terminal growth, seeded from the
+          engine's own drivers, with the growth = reinvestment × ROIC check live.</p>
+      </a>
+      <a class="card stack" href="report.html" style="text-decoration:none; --flow: var(--s-3)">
+        <p class="eyebrow eyebrow-accent">Flagship</p>
+        <h3 style="font-size: var(--step-1)">Full AI report</h3>
+        <p class="small muted">The complete engine output: every section, the full chart
+          pack, tear sheet, valuation, forensics, scenarios and audit trail.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div class="row-between">
+      <div class="wordmark">
+        <svg class="wordmark__glyph" width="24" height="24" viewBox="0 0 32 32" aria-hidden="true">
+          <rect width="32" height="32" rx="6" fill="var(--accent)"/>
+          <path d="M8 21h16M8 12.5v4M16 9.5v7M24 12.5v4" stroke="var(--bg-raised)"
+                stroke-width="2.2" stroke-linecap="round"/>
+        </svg>
+        <span class="wordmark__text" style="font-size: var(--step-0)">Prediqra</span>
+      </div>
+      <nav class="nav" aria-label="Footer">
+        <a href="screener.html">Screener</a>
+        <a href="simulator.html">Simulator</a>
+        <a href="report.html">Sample report</a>
+        <a href="how-it-works.html">How it works</a>
+      </nav>
+    </div>
+    <p class="footer__legal">
+      <strong>Demo, not offered for sale. Educational, not investment advice.</strong>
+      Built for FMKT 256. Figures are produced by an automated research engine from public
+      filings and free data sources and have not been reviewed by a human analyst. Several
+      data sources permit personal research only and not redistribution; figures drawn from
+      them are marked. Nothing here is a recommendation to buy or sell any security.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/js/meridian.js"></script>
+<script>
+(function () {
+  "use strict";
+  var M = window.Meridian;
+
+  /* The hero band is driven by the generated data, not by numbers typed into this
+     file. A hardcoded hero is the quickest way to end up showing a price the rest of
+     the site disagrees with - which it already did once. */
+  function drawHero(row) {
+    var lo = row && row.fv_low, hi = row && row.fv_high,
+        fv = row && row.fair_value, price = row && row.price;
+    if (!(lo && hi && fv)) return;
+    M.placeBand(document.getElementById("hero-band"), lo, fv, hi, price);
+    document.querySelector("[data-fv]").textContent = fv.toFixed(0);
+    document.querySelector("[data-lo]").textContent = "$" + lo.toFixed(0);
+    document.querySelector("[data-hi]").textContent = "$" + hi.toFixed(0);
+    var spread = (hi - lo) / fv;
+    document.querySelector(".figure__value").dataset.confidence =
+      spread < 0.4 ? "high" : (spread < 0.9 ? "medium" : "low");
+    M.placeBand(document.getElementById("pillar-band"), lo, fv, hi, price);
+  }
+
+  fetch("data/screener.json")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      var row = d && (d.rows || []).filter(function (x) { return x.symbol === "TSLA"; })[0];
+      drawHero(row || (d && d.rows && d.rows[0]));
+    })
+    .catch(function () { /* bands stay at their neutral default */ });
+
+  /* Ticker index, loaded rather than inlined: the daily job rewrites it along with
+     every ticker report, and this page should not need regenerating to stay current. */
+  fetch("data/index.json")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (idx) {
+      if (!idx) throw new Error("no index");
+      var list = document.querySelector("[data-ticker-list]");
+      var options = document.querySelector("[data-ticker-options]");
+      var known = {};
+      (idx.tickers || []).forEach(function (t) {
+        known[t.symbol] = true;
+        var a = document.createElement("a");
+        a.href = "t/" + t.symbol + ".html";
+        a.textContent = t.symbol;
+        a.title = t.name || t.symbol;
+        list.appendChild(a);
+        if (options) {
+          var opt = document.createElement("option");
+          opt.value = t.symbol;
+          opt.label = t.name || t.symbol;
+          options.appendChild(opt);
+        }
+      });
+      document.querySelector("[data-ticker-count]").textContent =
+        (idx.tickers || []).length;
+      document.querySelector("[data-last-updated]").textContent =
+        idx.last_updated || "—";
+
+      document.querySelector("[data-ticker-form]").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var v = (e.target.ticker.value || "").trim().toUpperCase();
+        var err = document.querySelector("[data-ticker-error]");
+        if (!v) return;
+        if (known[v]) { window.location.href = "t/" + v + ".html"; return; }
+        /* Honest about the boundary: this is a static demo with a fixed
+           coverage list, so an unknown ticker says so rather than 404ing. */
+        err.textContent = v + " is not in the covered set. Pick one below, or use " +
+          "“Generate full AI report” for an on-demand run.";
+      });
+    })
+    .catch(function () {
+      document.querySelector("[data-ticker-error]").textContent =
+        "The ticker index has not been generated yet.";
+    });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+/* ==========================================================================
+   MERIDIAN — the design system for the Equity Research Engine
+   ==========================================================================
+
+   The identity is built on two claims the engine makes that no consumer
+   finance product makes, so the design makes them visible rather than
+   decorative:
+
+   1. PROVENANCE. Every number came from somewhere nameable — a filing
+      section or a named computation. So every sourced number carries a
+      provenance rule (a 1px underline in --ink-faint) and reveals its origin
+      on hover. The underline is the signature: a page of this product is
+      recognisable by its quietly ruled numbers.
+
+   2. CONFIDENCE. The engine produces ranges, not points. So the primary
+      numeric component is a *band* with a tick on it, not a figure with a
+      "±" bolted on. Where a single number must appear, it is set at the
+      weight of its certainty: a wide band renders its point estimate in a
+      lighter weight than a narrow one.
+
+   Deliberately NOT like the terminals:
+   - no amber-on-black, no neon-on-charcoal
+   - no red/green as the primary palette; up/down are secondary signals, and
+     the accent is reserved for *provenance and confidence*, not direction
+   - warm paper rather than cold grey — the whole category is blue-grey, and
+     warmth is the cheapest distinctive move available
+
+   Palette: INK (deep blue-black), PAPER (warm off-white), VERDIGRIS (the
+   signature accent — oxidised copper, an instrument-maker's colour), OCHRE
+   (caution, data gaps), CLAY (negative, downside), SLATE (neutral chrome).
+   ========================================================================== */
+
+:root {
+  /* ---- brand ramps ------------------------------------------------------ */
+  --ink-950: #080c14;
+  --ink-900: #0d131f;
+  --ink-850: #121a28;
+  --ink-800: #182233;
+  --ink-700: #223044;
+  --ink-600: #2f4158;
+
+  --paper-50:  #fdfcfa;
+  --paper-100: #f8f6f1;
+  --paper-200: #f1eee6;
+  --paper-300: #e6e1d6;
+  --paper-400: #d4cec0;
+
+  --slate-300: #a8b2c1;
+  --slate-400: #8793a5;
+  --slate-500: #68758a;
+  --slate-600: #4f5c71;
+
+  /* Verdigris — the signature. Oxidised copper: a measuring-instrument
+     colour, legible on both paper and ink, and not the blue every finance
+     product reaches for. */
+  --verdigris-200: #9fd8ce;
+  --verdigris-300: #6cc3b5;
+  --verdigris-400: #3aa495;
+  --verdigris-500: #1f8577;
+  --verdigris-600: #15655b;
+  --verdigris-700: #0e4a43;
+
+  --ochre-300: #e8c074;
+  --ochre-400: #d79f3c;
+  --ochre-500: #b07d1f;
+  --ochre-600: #8a6115;
+
+  --clay-300: #e3a193;
+  --clay-400: #cc6f5a;
+  --clay-500: #a8482f;
+  --clay-600: #85341f;
+
+  /* ---- semantic: the only theme -------------------------------------
+     Dark only. No light palette exists, so there is no toggle, no stored
+     preference and nothing that can paint the wrong colours before a
+     script runs. */
+  --bg:          var(--ink-950);
+  --bg-raised:   var(--ink-900);
+  --bg-sunken:   var(--ink-850);
+  --bg-inset:    var(--ink-800);
+
+  --ink:         var(--paper-100);
+  --ink-soft:    var(--paper-300);
+  --ink-muted:   var(--slate-400);
+  --ink-faint:   var(--slate-500);
+
+  --rule:        var(--ink-800);
+  --rule-strong: var(--ink-700);
+
+  --accent:        var(--verdigris-300);
+  --accent-soft:   var(--verdigris-400);
+  --accent-wash:   color-mix(in oklab, var(--verdigris-300) 14%, transparent);
+  --accent-ink:    var(--verdigris-200);
+
+  --caution:       var(--ochre-300);
+  --caution-wash:  color-mix(in oklab, var(--ochre-300) 18%, transparent);
+  --negative:      var(--clay-300);
+  --negative-wash: color-mix(in oklab, var(--clay-300) 16%, transparent);
+  --positive:      var(--verdigris-300);
+
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-md: 0 4px 14px rgb(0 0 0 / 0.45);
+  --shadow-lg: 0 18px 44px rgb(0 0 0 / 0.55);
+
+  /* ---- type ------------------------------------------------------------- */
+  /* System stacks on purpose: no network font, so nothing shifts on load and
+     the page renders identically with CSP locked down. The numeric font is
+     monospaced with tabular figures, which is the instrument look AND makes
+     every column align without a layout hack. */
+  --font-display: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino,
+                  Georgia, "Times New Roman", serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+             "Helvetica Neue", Arial, sans-serif;
+  --font-num: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas,
+              "Liberation Mono", monospace;
+
+  --step--2: clamp(0.688rem, 0.67rem + 0.09vw, 0.75rem);
+  --step--1: clamp(0.8rem, 0.78rem + 0.11vw, 0.875rem);
+  --step-0:  clamp(0.938rem, 0.91rem + 0.14vw, 1rem);
+  --step-1:  clamp(1.125rem, 1.07rem + 0.27vw, 1.313rem);
+  --step-2:  clamp(1.375rem, 1.28rem + 0.48vw, 1.75rem);
+  --step-3:  clamp(1.688rem, 1.52rem + 0.84vw, 2.313rem);
+  --step-4:  clamp(2.063rem, 1.77rem + 1.46vw, 3.125rem);
+  --step-5:  clamp(2.5rem, 2rem + 2.5vw, 4.25rem);
+
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-normal: 1.55;
+  --leading-relaxed: 1.7;
+
+  --tracking-tight: -0.02em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.04em;
+  --tracking-caps: 0.12em;
+
+  /* ---- space: 4px base -------------------------------------------------- */
+  --s-1: 0.25rem;  --s-2: 0.5rem;   --s-3: 0.75rem;  --s-4: 1rem;
+  --s-5: 1.5rem;   --s-6: 2rem;     --s-7: 3rem;     --s-8: 4rem;
+  --s-9: 6rem;     --s-10: 8rem;
+
+  --radius-sm: 3px;
+  --radius: 6px;
+  --radius-lg: 10px;
+  --radius-full: 999px;
+
+  --measure: 68ch;
+  --page: 1180px;
+  --page-wide: 1440px;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --fast: 120ms;
+  --med: 220ms;
+}
+

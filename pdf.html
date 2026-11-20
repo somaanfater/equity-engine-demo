@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Prediqra | FMKT 256</title>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/meridian.css">
+<style>
+  /* Print-first: this page exists to become FMKT256.pdf, so the page box is the
+     primary medium and the screen rendering is the preview. */
+  @page { size: Letter; margin: 0.6in 0.75in; }
+
+  /* The shared stylesheet is dark-only now, so its semantic colours are light text for
+     a dark background. This document prints on white paper, so it restores the light
+     palette for itself. Without this the body text arrives as pale grey on white and is
+     effectively unreadable in print. */
+  :root {
+    --page-w: 7in;
+    --bg:          #ffffff;
+    --bg-raised:   #ffffff;
+    --bg-sunken:   #f7f5f0;
+    --bg-inset:    #eee9df;
+
+    --ink:         #0d131f;
+    --ink-soft:    #223044;
+    --ink-muted:   #4f5c71;
+    --ink-faint:   #68758a;
+
+    --rule:        #e6e1d6;
+    --rule-strong: #d4cec0;
+
+    --accent:      #15655b;
+    --accent-ink:  #0e4a43;
+    --accent-wash: color-mix(in oklab, #1f8577 10%, transparent);
+
+    --caution:       #8a6115;
+    --caution-wash:  color-mix(in oklab, #d79f3c 14%, transparent);
+    --negative:      #a8482f;
+    --negative-wash: color-mix(in oklab, #cc6f5a 12%, transparent);
+    --positive:      #15655b;
+  }
+
+  html, body { background: #ffffff; color: var(--ink); }
+  /* The muted tiers are print-legible rather than screen-faint. */
+  .muted, .tiny-note, .kv dd, .shot figcaption, .meta dt { color: var(--ink-muted); }
+  .faint { color: var(--ink-muted); }
+  .eyebrow { color: var(--ink-soft); }
+  .eyebrow-accent { color: var(--accent); }
+  body { font-size: 10.5pt; line-height: 1.5; }
+
+  .sheet {
+    width: var(--page-w);
+    margin: 0 auto;
+    padding-block: 0.4in;
+    break-after: page;
+  }
+  /* :last-of-type, not :last-child — the <script> tag is body's last child, so
+     :last-child never matched and the final sheet kept its trailing page break,
+     producing a blank seventh page. */
+  .sheet:last-of-type { break-after: auto; }
+
+  h1 { font-size: 30pt; line-height: 1.05; letter-spacing: -0.025em; }
+  h2 { font-size: 16pt; margin-bottom: 0.08in; }
+  h3 { font-size: 11.5pt; font-family: var(--font-ui); font-weight: 650;
+       letter-spacing: 0; }
+  p { margin-bottom: 0.1in; }
+
+  .cover { display: flex; flex-direction: column; min-height: 9in; }
+  .cover__mark { display: flex; align-items: center; gap: 10px; }
+  .cover__body { margin-top: auto; }
+  .cover__rule { height: 3px; background: var(--accent); width: 2.2in;
+                 margin-block: 0.18in; }
+
+  .team { display: grid; gap: 2px; font-family: var(--font-num);
+          font-size: 10.5pt; }
+  .meta { display: grid; grid-template-columns: 1.45in 1fr; gap: 3px 0.14in;
+          font-size: 9.5pt; margin-top: 0.2in; }
+  .meta dt { font-weight: 600; color: var(--ink-muted); font-size: 8.5pt;
+             text-transform: uppercase; letter-spacing: var(--tracking-wide); }
+  .meta dd { margin: 0; }
+
+  .shot { border: 1px solid var(--rule-strong); border-radius: 4px;
+          overflow: hidden; background: var(--bg-sunken); break-inside: avoid; }
+  /* Capped and top-cropped. A 1440x2100 screenshot scaled to a 7in column is ten
+     inches tall and pushes the sheet onto a second page; the top of each page is the
+     part worth showing anyway. */
+  .shot img { width: 100%; display: block; max-height: 2.5in;
+              object-fit: cover; object-position: top center; }
+  .shots-2 .shot img { max-height: 1.75in; }
+  .shot figcaption { font-size: 8pt; color: var(--ink-muted);
+                     padding: 5px 8px; border-top: 1px solid var(--rule); }
+  .shots { display: grid; gap: 0.16in; }
+  .shots-2 { grid-template-columns: 1fr 1fr; }
+
+  .kv { display: grid; grid-template-columns: 1.3in 1fr; gap: 4px 0.12in;
+        font-size: 9.5pt; }
+  .kv dt { font-weight: 600; }
+  .kv dd { margin: 0; color: var(--ink-soft); }
+
+  .flow { display: grid; gap: 4px; font-size: 9pt; }
+  .flow__row { display: grid; grid-template-columns: 0.22in 1fr; gap: 0.1in;
+               padding: 5px 7px; border-left: 2px solid var(--accent);
+               background: var(--bg-raised); }
+  .flow__row[data-ai="1"] { border-left-color: var(--ochre-400); }
+  .flow__row[data-check="1"] { border-left-color: var(--slate-400); }
+  .flow__n { font-family: var(--font-num); color: var(--ink-muted); }
+
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 0.18in; }
+  .box { border: 1px solid var(--rule); border-radius: 5px; padding: 0.12in;
+         background: var(--bg-raised); break-inside: avoid; }
+  .box--accent { border-color: color-mix(in oklab, var(--accent) 45%, var(--rule));
+                 background: var(--accent-wash); }
+
+  .tiny-note { font-size: 8pt; color: var(--ink-faint); }
+  ul { padding-left: 0.18in; margin-bottom: 0.1in; }
+  li { margin-bottom: 3px; }
+
+  @media print {
+    .no-print { display: none !important; }
+    .sheet { padding-block: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="no-print" style="position:fixed;top:8px;right:8px;z-index:99">
+  <button class="btn btn--sm" onclick="window.print()">Print / Save as PDF</button>
+</div>
+
+<!-- ============================ 1. COVER ============================ -->
+<section class="sheet cover">
+  <div class="cover__mark">
+    <svg width="34" height="34" viewBox="0 0 32 32" aria-hidden="true">
+      <rect width="32" height="32" rx="6" fill="var(--accent)"/>
+      <path d="M8 21h16M8 12.5v4M16 9.5v7M24 12.5v4" stroke="var(--bg-raised)"
+            stroke-width="2.2" stroke-linecap="round"/>
+    </svg>
+    <div>
+      <div style="font-family:var(--font-display);font-size:13pt;line-height:1">
+        Prediqra</div>
+      <div class="eyebrow" style="font-size:7.5pt">Provenance-first equity research</div>
+    </div>
+  </div>
+
+  <div class="cover__body">
+    <p class="eyebrow eyebrow-accent">Extra credit project on AI</p>
+    <h1 style="margin-top:0.08in">An AI equity research engine<br>where the model never
+      does arithmetic.</h1>
+    <div class="cover__rule"></div>
+    <p style="font-size:12pt;font-family:var(--font-display);color:var(--ink-soft);
+              max-width:5.4in">
+      Prediqra is an AI equity research engine: a finance web app that imports a decade
+      of filings and market data, computes the whole analytical stack in Python, and uses
+      frontier AI only to reason over numbers it is never allowed to invent.
+    </p>
+
+    <div class="team" style="margin-top:0.3in">
+      <div>Muhammad Somaan Fater (mf373)</div>
+      <div>Ameya Aneja (aa900)</div>
+      <div>Kaitlyn Hao (kmh166)</div>
+    </div>
+
+    <dl class="meta">
+      <dt>Course</dt><dd>FMKT 256, Extra Credit Project on AI, Fall 2026</dd>
+      <dt>Prompt</dt><dd>Prompt 1: finance app</dd>
+      <dt>Live app</dt>
+      <dd><a href="https://somaanfater.github.io/equity-engine-demo/"
+             style="color:var(--accent)"><strong>somaanfater.github.io/equity-engine-demo</strong></a></dd>
+      <dt>Built with</dt><dd>Claude (Anthropic), Claude Code and Claude Opus</dd>
+    </dl>
+
+    <p class="tiny-note" style="margin-top:0.22in">
+      Demo, not offered for sale. Educational project, not investment advice.
+    </p>
+  </div>
+</section>
+
+<!-- ======================= 2. WHAT IT DOES ======================= -->
+<section class="sheet">
+  <h2>What it does</h2>
+  <p>
+    The app answers one question about a public company, <em>what is it worth, and how
+    confident can you be?</em>, and shows its work for every number on the way.
+  </p>
+
+  <h3 style="margin-top:0.18in">Two ideas the rest of the category skips</h3>
+  <div class="split" style="margin-top:0.08in">
+    <div class="box">
+      <p class="eyebrow eyebrow-accent">01, Provenance as interface</p>
+      <p style="margin-top:4px">
+        Every sourced figure carries a thin rule beneath it. Hover or tab to it and a card
+        names where it came from: the filing and Item section, or the named Python function
+        and its formula. A figure the engine could <em>not</em> source gets a dotted amber
+        rule instead, so an absent number never looks like a present one.
+      </p>
+    </div>
+    <div class="box">
+      <p class="eyebrow eyebrow-accent">02, Visible confidence</p>
+      <p style="margin-top:4px">
+        Fair value is a distribution, so it is drawn as one: a band for the simulated
+        P10–P90, a tick for the point estimate, a hairline for the market price. The point
+        estimate's font weight is set by its own spread, a wide band prints lighter. False
+        precision is a typographic choice, so this is the typographic answer to it.
+      </p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:0.2in">What a visitor can do, with no login and no sign-up</h3>
+
+  <ul>
+    <li><strong>Full numbers-only reports</strong> for 18 companies across sectors, opened
+      from a ticker search on the home page. Each is the engine's own report with the AI
+      sections left empty: ten years of standardized statements, ratios, four forensic
+      screens, credit, risk, technicals, factor regressions, DCF, reverse DCF, comps and a
+      10,000-path Monte Carlo. Thirteen sections and 14 to 40 charts.</li>
+    <li><strong>Screener</strong>, four preset screens (forensic red flags, price implies
+      &gt;25% growth, cheap vs growth, momentum) run in the browser over every covered
+      ticker.</li>
+    <li><strong>Build your own DCF</strong>, drive the whole free-cash-flow forecast
+      yourself: growth and its fade, operating margin, sales-to-capital, tax, WACC and
+      terminal growth, all seeded from the engine's own computed drivers. It recomputes ten
+      explicit years plus a terminal value live, and warns when your assumptions violate
+      <code>growth = reinvestment × ROIC</code>, the identity that stops a DCF handing out
+      growth nobody paid for.</li>
+    <li><strong>Rate simulator</strong>, move the risk-free rate and equity risk premium
+      and watch WACC and fair value move with them.</li>
+    <li><strong>One full AI report</strong>: the complete engine output for Tesla, all
+      fifteen phases, ten scores out of 100, a recommendation by horizon and five valued
+      scenarios. Asking for another company returns the reason rather than a queue: each
+      full report costs about $25 in model fees.</li>
+  </ul>
+
+  <h3 style="margin-top:0.18in">The rules it will not break</h3>
+  <div class="kv">
+    <dt>No arithmetic by AI</dt>
+    <dd>Every number comes from Python or a cited source. The response contract has no
+      field to put a free-floating number in, so the constraint is structural rather than
+      an instruction.</dd>
+    <dt>No fabricated data</dt>
+    <dd>A failed or missing source is recorded as a gap and shown. Nothing is filled with a
+      plausible value.</dd>
+    <dt>Point-in-time</dt>
+    <dd>Every loader takes an as-of date and is tested for it, so a backtest cannot see
+      information that did not exist yet.</dd>
+    <dt>Reproducible</dt>
+    <dd>Each run writes a manifest: model version, snapshot hash, git commit, per-phase
+      reasoning effort and exact cost.</dd>
+  </div>
+</section>
+
+<!-- ======================= 3. SCREENSHOTS ======================= -->
+<section class="sheet">
+  <h2>The app</h2>
+  <div class="shots">
+    <figure class="shot">
+      <img src="shots/home.png" alt="Home page">
+      <figcaption>Home. The first thing on the page is a ticker search that opens any of
+        the 18 free reports; below it, a single line explains that full AI reports are
+        Tesla-only and why.</figcaption>
+    </figure>
+    <div class="shots shots-2">
+      <figure class="shot">
+        <img src="shots/build-dcf.png" alt="Build your own DCF">
+        <figcaption>Build your own DCF, mechanical versus yours, with the
+          growth = reinvestment × ROIC check live.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="shots/screener.png" alt="Screener">
+        <figcaption>Screener, four preset screens over all 18 covered
+          companies.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="shots/ticker.png" alt="Numbers-only ticker report">
+        <figcaption>A free numbers-only report: every score carries its formula and its
+          paper.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="shots/report.png" alt="Full AI report">
+        <figcaption>The flagship full AI report, 13 sections, 62 charts, the audit trail
+          and every data gap.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 4. HOW DATA UPDATES ======================= -->
+<section class="sheet">
+  <h2>How the data updates</h2>
+  <p>
+    The app imports historical data and refreshes with new data on a schedule, with no
+    manual step.
+  </p>
+
+  <div class="flow" style="margin-top:0.12in">
+    <div class="flow__row"><span class="flow__n">1</span>
+      <span><strong>Scheduled job (launchd, weekdays 16:35 New York).</strong> Runs after
+      the US close on the author's Mac. It waits up to five minutes for DNS first, because
+      it fires on a wake and the first scheduled run lost a day's data to a network that
+      was not up yet.</span></div>
+    <div class="flow__row"><span class="flow__n">2</span>
+      <span><strong>Import.</strong> SEC EDGAR filings and XBRL facts, prices, FRED macro
+      series, Form 4 insider transactions, 13F holdings, FINRA short interest, Fama–French
+      factors, the implied equity risk premium, and peer financials, frozen into a hashed,
+      read-only snapshot per company.</span></div>
+    <div class="flow__row"><span class="flow__n">3</span>
+      <span><strong>Append-only archive.</strong> Four sources serve only "now", an
+      options chain, consensus estimates, the borrow fee, a quote, so each day's
+      observation is written once, under its <em>market</em> date, and never rewritten.
+      It is the only route to a point-in-time history for data no free vendor
+      sells with a vintage.</span></div>
+    <div class="flow__row"><span class="flow__n">4</span>
+      <span><strong>Compute.</strong> The whole analytical stack, in Python, as pure
+      functions with unit tests against hand-checked values.</span></div>
+    <div class="flow__row"><span class="flow__n">5</span>
+      <span><strong>Publish.</strong> The job rebuilds all eighteen reports, commits to a public GitHub repository and pushes. GitHub Pages redeploys automatically, so the live site updates each weekday without anyone touching it.</span></div>
+  </div>
+
+  <h3 style="margin-top:0.2in">What runs live for everyone, and what runs locally</h3>
+  <div class="split" style="margin-top:0.08in">
+    <div class="box box--accent">
+      <p class="eyebrow eyebrow-accent">Live for anyone, free</p>
+      <p style="margin-top:4px"><strong>The data import and every calculation.</strong>
+        All the numbers on the site, statements, ratios, forensic screens, credit, risk,
+        technicals, factor regressions, DCF, reverse DCF, comps, Monte Carlo, plus the
+        screener, the rate simulator and the Build-your-own-DCF page, which recompute in
+        your browser as you move the sliders. No login, no email, no account.</p>
+    </div>
+    <div class="box">
+      <p class="eyebrow" style="color:var(--caution)">Runs locally</p>
+      <p style="margin-top:4px"><strong>The full AI analysis, because of API cost.</strong>
+        The sixteen analysis phases, the five-seat council, the red team, the bias checks
+        and the verifier are frontier-model calls which cost <strong>about $25 to $27 per report</strong>, measured on the published Tesla report with retries included. Running one per company per day is not something a class project
+        can fund, so the AI stage runs on a local machine on request. The published <strong>sample report</strong> shows exactly what it produces.</p>
+    </div>
+  </div>
+  <p class="tiny-note" style="margin-top:0.1in">
+    This split is stated on the site itself, on every free report: each one says plainly
+    that no language model has seen it and links to the full AI report for comparison.
+  </p>
+</section>
+
+<!-- ======================= 5. BUILT WITH CLAUDE ======================= -->
+<section class="sheet">
+  <h2>Built with Claude</h2>
+  <p>
+    The engine was designed and written with <strong>Claude Code</strong> (Anthropic),
+    and <strong>Claude Opus</strong> is the model inside the product. Both roles are worth
+    distinguishing, because they are different uses of AI.
+  </p>
+
+  <h3 style="margin-top:0.16in">Claude as the engineer</h3>
+  <p>
+    133 Python modules and 2,483 tests, built task by task against a written
+    specification. The work included the parts that are easy to skip: point-in-time tests
+    for every loader, accounting identity assertions, a response contract with no numeric
+    field, and a spending ledger that refuses a call before making it.
+  </p>
+  <p>
+    It also found its own bugs by running the thing. Four examples, all of which only
+    appeared on a company the engine had never analyzed before: duplicate SEC accession
+    numbers where EDGAR rebalances its filing index; Form 4 rows with no share count;
+    a single transient HTTP 503 on one filing document aborting an entire eight-minute
+    import; and a date bug where an evening run labeled its data with the <em>next</em>
+    day's date, because the clock was UTC rather than New York, which would have made a
+    point-in-time archive look a session older than it was.
+  </p>
+
+  <h3 style="margin-top:0.16in">Claude as the analyst</h3>
+  <p>
+    Sixteen phases read the computed figures and reason about them, business and moat,
+    forensic accounting, management track record, industry structure, governance, legal,
+    valuation judgment, scenarios, trade construction. They request new calculations
+    through tool calls rather than performing them.
+  </p>
+  <p>
+    The most instructive result was a <strong>refusal</strong>: the output contract rejected a catalyst the model could not date precisely, six times, rather than accept a date it could not justify. The note below records what that cost and what it changed.</p>
+  <div class="box" style="margin-top:0.14in">
+    <p class="eyebrow">Note on the sample report</p>
+    <p style="margin-top:4px;font-size:9.5pt">
+      All fifteen phases completed, but it took six paid runs to get there and the reason
+      is worth stating. One phase failed its output contract nine times: it kept dating a
+      catalyst "Q3 2026" while the contract demanded an exact day. The contract was right
+      to refuse a date the model could not justify, and the design was wrong to force the
+      choice, it now separates <em>where a date came from</em> (confirmed or inferred)
+      from <em>how precisely it is known</em> (day, month, quarter, window, none). The root
+      cause was smaller and worse: the rules existed but were wired to no phase, so the
+      model had never been shown them.
+      <br><br>
+      The council, chairman and red team are implemented and tested but were not run for
+      this sample, so the report shows no council agreement rather than implying one.
+      </div>
+</section>
+
+<!-- ======================= 6. DISCLAIMER ======================= -->
+<section class="sheet">
+  <h2>Disclaimer</h2>
+  <div class="box" style="border-color: color-mix(in oklab, var(--negative) 40%, var(--rule))">
+    <p><strong>This is an educational demonstration. It is not investment advice, and
+      nothing in it is a recommendation to buy or sell any security.</strong></p>
+    <p style="margin-top:6px">
+      Figures are produced by an automated research engine from public filings and free
+      data sources, and have <strong>not been reviewed by a human analyst</strong>. The
+      engine records its own data gaps and shows them; it does not fill them. Valuation
+      output is a model result under stated assumptions, not a price target.
+    </p>
+    <p style="margin-top:6px">
+      <strong>Not offered for sale.</strong> Several data sources used here permit personal
+      research only and not redistribution, and figures drawn from them are marked on the
+      site. No report produced by this engine is offered for sale.
+    </p>
+    <p style="margin-top:6px">
+      Past performance does not indicate future results. The prediction log on which any
+      future calibration would be based is forward-only by design: it scores a forecast
+      only after its horizon has fully elapsed, so there are no calibration statistics yet
+      and the app says so rather than publishing an unearned number.
+    </p>
+  </div>
+
+  <h3 style="margin-top:0.2in">Links</h3>
+  <div class="kv">
+    <dt>Live app</dt>
+    <dd><a href="https://somaanfater.github.io/equity-engine-demo/"
+           style="color:var(--accent)">somaanfater.github.io/equity-engine-demo</a></dd>
+    <dt>Source (demo site)</dt>
+    <dd>github.com/somaanfater/equity-engine-demo, rendered output only; the engine
+      itself, its prompts and its configuration are not published.</dd>
+  </div>
+
+  <p class="tiny-note" style="margin-top:0.3in">
+    Muhammad Somaan Fater (mf373) · Ameya Aneja (aa900) · Kaitlyn Hao (kmh166) ·
+    FMKT 256, Fall 2026
+  </p>
+</section>
+
+<script src="assets/js/meridian.js"></script>
+</body>
+</html>
